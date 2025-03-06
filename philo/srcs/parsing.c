@@ -6,13 +6,14 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/06 01:57:26 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/06 04:56:54 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdlib.h>
 
-static int is_integer(char *s)
+static int	is_integer(char *s)
 {
 	size_t	i;
 	int		check_error;
@@ -27,6 +28,44 @@ static int is_integer(char *s)
 	}
 	ft_atoi(s, &check_error);
 	if (check_error != 0)
+		return (-1);
+	return (0);
+}
+
+static int	check_time_value(t_data *data)
+{
+	if (data->death_time < MIN_TIME)
+	{
+		ft_putstr_fd("death_time must be greater than 60ms\n", 2);
+		return (-1);
+	}
+	else if (data->eat_time < MIN_TIME)
+	{
+		ft_putstr_fd("eat_time must be greater than 60ms\n", 2);
+		return (-1);
+	}
+	else if (data->sleep_time < MIN_TIME)
+	{
+		ft_putstr_fd("sleep_time must be greater than 60ms\n", 2);
+		return (-1);
+	}
+	return (0);
+}
+
+static int	init_struc(t_data *data, int ac, char **av)
+{
+	data->id = 0;
+	data->is_alive = true;
+	data->nb_philo = (size_t)ft_atoi(av[1], 0);
+	data->death_time = (size_t)ft_atoi(av[2], 0);
+	data->eat_time = (size_t)ft_atoi(av[3], 0);
+	data->sleep_time = (size_t)ft_atoi(av[4], 0);
+	if (ac == 6)
+		data->nb_eat = (size_t)ft_atoi(av[5], 0);
+	else
+		data->nb_eat = -1;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
+	if (data->forks == NULL)
 		return (-1);
 	return (0);
 }
@@ -50,20 +89,9 @@ int	check_params(t_data *data, int ac, char **av)
 			write(2, "] !\n", 4);
 			return (-1);
 		}
-		++i;	
+		++i;
 	}
-	init_struc(data, ac, av);
+	if (init_struc(data, ac, av) != 0 || check_time_value(data) != 0)
+		return (-1);
 	return (0);
-}
-
-void	init_struc(t_data *data, int ac, char **av)
-{
-	data->nb_philo = ft_atoi(av[1], 0);
-	data->death_time = ft_atoi(av[2], 0);
-	data->eat_time = ft_atoi(av[3], 0);
-	data->sleep_time = ft_atoi(av[4], 0);
-	if (ac == 6)
-		data->nb_eat = ft_atoi(av[5], 0);
-	else
-		data->nb_eat = -1;
 }

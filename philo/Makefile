@@ -4,6 +4,7 @@ SRCS := srcs/main.c \
 	srcs/ft_atoi.c \
 	srcs/parsing.c \
 	srcs/utils.c \
+	srcs/init_threads.c \
 	
 
 # SRCSB := 
