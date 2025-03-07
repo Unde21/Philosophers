@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/06 04:57:03 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/07 04:46:50 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,35 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <stdbool.h>
+# include <sys/time.h>
+
+typedef struct s_philo
+{
+	size_t	id;
+	size_t	nb_meal;
+	long	time_last_meal;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	struct	s_data *data;
+	pthread_t	thread;
+}	t_philo;
 
 typedef struct s_data
 {
-	size_t			id;
-	size_t			nb_philo;
-	size_t			death_time;
-	size_t			eat_time;
-	size_t			sleep_time;
-	int				meal_count;
-	int				nb_eat;
-	// bool			is_meal_limit;
-	bool			is_alive;
+	size_t	nb_philo;
+	long	death_time;
+	long	eat_time;
+	long	sleep_time;
+	long	start_time;
+	int		nb_eat;
+	bool	someone_died;
+	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	mutex_death;
 	pthread_mutex_t	*forks;
-}		t_data;
+	t_philo		*philos;
+	pthread_t	status_thread;
+}	t_data;
+
 
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
@@ -40,6 +55,8 @@ size_t	ft_strlen(const char *s);
 int		ft_atoi(const char *nptr, int *check_error);
 
 int		check_params(t_data *data, int ac, char **av);
-void	init_threads(t_data *data);
+int		create_threads(t_data *data);
+
+long	get_current_time_ms(void);
 
 #endif
