@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/07 04:46:50 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/08 01:01:56 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ typedef struct s_data
 	long	sleep_time;
 	long	start_time;
 	int		nb_eat;
+
+	// int		race;
+
+	
 	bool	someone_died;
 	pthread_mutex_t	mutex_print;
 	pthread_mutex_t	mutex_death;

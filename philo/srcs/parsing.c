@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/07 04:46:54 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/08 00:55:21 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ static	bool init_data(t_data *data, int ac, char **av)
 {
 	data->nb_philo = ft_atoi(av[1], 0);
 	data->death_time = ft_atoi(av[2], 0);
-	data->eat_time = ft_atoi(av[3], 0);
-	data->sleep_time = ft_atoi(av[4], 0);
+	data->eat_time = ft_atoi(av[3], 0) * 1000;
+	data->sleep_time = ft_atoi(av[4], 0) * 1000;
 	if (ac == 6)
 		data->nb_eat = ft_atoi(av[5], 0);
 	else

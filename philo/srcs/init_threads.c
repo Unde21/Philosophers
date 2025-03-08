@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:27:46 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/07 05:11:57 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/08 01:02:05 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*TODO ne pas protect les forks avec un mutex directement, passer par une variable 0/1 (sujet)
+wait que tout les threads soit  creer au debut de philos_loop quit properly if one of them failed
+-g3 fsanitize=thread
+
+*/
 long	get_current_time_ms(void)
 {
 	struct timeval current;
@@ -21,7 +26,7 @@ long	get_current_time_ms(void)
 	return (current.tv_sec * 1000 + current.tv_usec / 1000);
 }
 
-void print(t_data *data, size_t id, char *str)
+void safe_print(t_data *data, size_t id, char *str)
 {
 	if (data->someone_died == true)
 		return ;
@@ -97,6 +102,14 @@ void *status_loop(void *ptr)
     return NULL;
 }
 
+void	waiting(t_data *data, long time)
+{
+	while(time > 20 && data->someone_died == false)
+	{
+		usleep(time / 20);
+		time /= 20;
+	}
+}
 void	*philos_loop(void *ptr)
 {
 	t_philo *philo;
@@ -108,29 +121,28 @@ void	*philos_loop(void *ptr)
 		usleep(100);
 	while (1)
 	{
+		// ++data->race;
 		if (check_death(data, philo) == true)
 			break;
-		print(data, philo->id, "is thinking");
+		safe_print(data, philo->id, "is thinking");
 		if (philo->id %2 == 0)
 		{
 			pthread_mutex_lock(philo->left_fork);
-			print(data, philo->id, "has taken the left fork");
 			pthread_mutex_lock(philo->right_fork);
-			print(data, philo->id, "has taken the right fork");
+			safe_print(data, philo->id, "has taken a fork");
 		}
 		else
 		{
 			pthread_mutex_lock(philo->right_fork);
-			print(data, philo->id, "has taken the right fork");
 			pthread_mutex_lock(philo->left_fork);
-			print(data, philo->id, "has taken the left fork");
+			safe_print(data, philo->id, "has taken a fork");
 		}
-		print(data, philo->id, "is eating");
+		safe_print(data, philo->id, "is eating");
 		pthread_mutex_lock(&data->mutex_death);
 		philo->time_last_meal = get_current_time_ms();
 		++philo->nb_meal;
 		pthread_mutex_unlock(&data->mutex_death);
-		usleep(data->eat_time * 1000);
+		usleep(data->eat_time);
 		if (philo->id % 2 == 0)
 		{
 			pthread_mutex_unlock(philo->right_fork);
@@ -141,8 +153,8 @@ void	*philos_loop(void *ptr)
 			pthread_mutex_unlock(philo->left_fork);
 			pthread_mutex_unlock(philo->right_fork);
 		}
-		print(data, philo->id, "is sleeping");
-		usleep(data->sleep_time * 1000);
+		safe_print(data, philo->id, "is sleeping");
+		waiting(data, data->sleep_time);
 	}
 	return (NULL);
 }
@@ -167,6 +179,9 @@ int		create_threads(t_data *data)
 	size_t	i;
 
 	i = 0;
+
+	// data->race = 0;
+	
 	while (i < data->nb_philo)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL, philos_loop, &data->philos[i]) != 0)
