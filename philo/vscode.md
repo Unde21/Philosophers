@@ -86,6 +86,7 @@ VS Code stocke ses préférences utilisateur et workspace dans des fichiers .jso
 			"editor.tabSize": 4,
 			"workbench.colorTheme": Visual Studio Dark"
 		}
+
     Le .json permet de modifier les paramètres sans passer par l'interface graphique.
     Quelques settings intéressant:
 		{
@@ -102,7 +103,6 @@ Les extensions sont le plus gros points fort de VScode, certaines sont obligatoi
 - [gitlens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 
     Pour désactiver l 'affichage du dernier commit sur chaque ligne, ajoutez cette ligne dans le .json
-
     	{
 		    "gitlens.currentLine.enabled": false,
 		}
