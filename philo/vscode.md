@@ -89,6 +89,7 @@ VS Code stocke ses préférences utilisateur et workspace dans des fichiers .jso
 
 
 Le .json permet de modifier les paramètres sans passer par l'interface graphique.
+    
 Quelques settings intéressant:
 
 		{
