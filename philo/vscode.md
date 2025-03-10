@@ -65,9 +65,9 @@ Ci-dessous une liste triée de raccourcis utiles :
         Alt + O = Switch entre le .h et le fichier c / cpp
 
 
-# .JSON
+## .JSON
 
-	## Qu'est-ce que JSON ?
+### Qu'est-ce que JSON ?
 
 JSON (JavaScript Object Notation) est un format léger et lisible permettant de structurer des données sous forme d'objets. Il est utilisé pour :
 
@@ -102,6 +102,7 @@ Les extensions sont le plus gros points fort de VScode, certaines sont obligatoi
 - Avoir l'extension du language que vous codez est nécessaire ( ex : C/C++ Intelicense, )
 - [gitlens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
     Ajouter cette ligne dans le .json, désactive l'affichage du dernier commit sur chaque ligne modifiée
+    
     	{
 		    "gitlens.currentLine.enabled": false,
 		}
