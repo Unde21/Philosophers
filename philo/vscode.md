@@ -100,7 +100,11 @@ JSON (JavaScript Object Notation) est un format léger et lisible permettant de 
 Les extensions sont le plus gros points fort de VScode, certaines sont obligatoires, d'autres vraiment utiles, en voici une liste :
 
 - Avoir l'extension du language que vous codez est nécessaire ( ex : C/C++ Intelicense, )
-- [gitlens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) (Ajouter "gitlens.currentLine.enabled": false, dans le .json, désactive l'affichage du dernier commit sur chaque ligne modifiée)
+- [gitlens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+    Ajouter cette ligne dans le .json, désactive l'affichage du dernier commit sur chaque ligne modifiée
+    	{
+		    "gitlens.currentLine.enabled": false,
+		}
 - [githistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)
 - [Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
 - [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) + [Doc](https://code.visualstudio.com/docs/remote/ssh)
