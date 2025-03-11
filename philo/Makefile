@@ -14,7 +14,7 @@ HEADER := includes/philo.h
 # HEADERB := includes/
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g3 -fsanitize=thread -pg
+CFLAGS := -Wall -Wextra -Werror
 CPPFFLAGS := -MMD -MP
 
 RM := rm -rf

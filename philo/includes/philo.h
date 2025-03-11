@@ -6,14 +6,14 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/08 01:01:56 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/11 03:03:08 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# define USG "Use: ./philo nb_philo [time_to:] death eat sleep [nb_must_eat]\n"
+# define USG "Use: ./philo nb_philo [time_to:] die eat sleep [nb_must_eat]\n"
 # define MIN_TIME 60
 
 # include <unistd.h>
@@ -40,7 +40,7 @@ typedef struct s_data
 	long	sleep_time;
 	long	start_time;
 	int		nb_eat;
-
+	int		start;
 	// int		race;
 
 	
@@ -48,6 +48,8 @@ typedef struct s_data
 	pthread_mutex_t	mutex_print;
 	pthread_mutex_t	mutex_death;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t m_start_time;
+	pthread_mutex_t m_start; //TODO faire sa partout
 	t_philo		*philos;
 	pthread_t	status_thread;
 }	t_data;

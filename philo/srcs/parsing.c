@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/08 00:55:21 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/11 03:06:17 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ static bool	check_value(t_data *data)
 bool	init_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->mutex_print, NULL) != 0 
-		|| pthread_mutex_init(&data->mutex_death, NULL) != 0)
+		|| pthread_mutex_init(&data->mutex_death, NULL) != 0
+		|| pthread_mutex_init(&data->m_start, NULL) != 0
+		|| pthread_mutex_init(&data->m_start_time, NULL) != 0)
         return false;
 	return (true);
 }
@@ -118,15 +120,18 @@ bool	init_threads(t_data *data)
 
 static	bool init_data(t_data *data, int ac, char **av)
 {
+	data->start = 0;
 	data->nb_philo = ft_atoi(av[1], 0);
+	if (data->nb_philo > 2000)
+		return (false);
 	data->death_time = ft_atoi(av[2], 0);
-	data->eat_time = ft_atoi(av[3], 0) * 1000;
-	data->sleep_time = ft_atoi(av[4], 0) * 1000;
+	data->eat_time = ft_atoi(av[3], 0);
+	data->sleep_time = ft_atoi(av[4], 0);
 	if (ac == 6)
 		data->nb_eat = ft_atoi(av[5], 0);
 	else
 		data->nb_eat = -1;
-	data->start_time = get_current_time_ms();
+	data->start_time = get_current_time_ms(); //TODO secure le premier appel
 	data->someone_died = false;
 	if (check_value(data) == false)
 		return (false);

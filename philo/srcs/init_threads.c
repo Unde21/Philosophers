@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:27:46 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/08 01:02:05 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/11 03:23:35 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 #include <stdio.h>
 
 /*TODO ne pas protect les forks avec un mutex directement, passer par une variable 0/1 (sujet)
+faire une fonction waiting qui fonctionne mieux : il y a un pb avec le data->eat_time
+Faire un define de tout les print 
 wait que tout les threads soit  creer au debut de philos_loop quit properly if one of them failed
--g3 fsanitize=thread
+-g3 -fsanitize=thread -pg
 
 */
+int	 wait_start(t_data *data);
+void	waiting(t_data *data, long time);
+
 long	get_current_time_ms(void)
 {
 	struct timeval current;
@@ -31,7 +36,7 @@ void safe_print(t_data *data, size_t id, char *str)
 	if (data->someone_died == true)
 		return ;
     pthread_mutex_lock(&data->mutex_print);
-    printf("[%ld][%lu] %s\n", get_current_time_ms() - data->start_time, id + 1, str);
+    printf("%ld %lu %s\n", get_current_time_ms() - data->start_time, id + 1, str);
     pthread_mutex_unlock(&data->mutex_print);
 }
 
@@ -50,7 +55,7 @@ bool	check_death(t_data *data, t_philo *philo)
 	{
 		data->someone_died = true;
 		pthread_mutex_unlock(&data->mutex_death);
-		printf("[%ld][%lu] died\n", get_current_time_ms() - data->start_time, philo->id + 1);
+		printf("%ld %lu died\n", get_current_time_ms() - data->start_time, philo->id + 1);
 		return (true);
 	}
 	pthread_mutex_unlock(&data->mutex_death);
@@ -81,6 +86,7 @@ void *status_loop(void *ptr)
 
 	data = (t_data *)ptr;
 	philos = data->philos;
+	// waiting(data, data->eat_time);
     while (1)
     {
 		i = 0;
@@ -104,11 +110,46 @@ void *status_loop(void *ptr)
 
 void	waiting(t_data *data, long time)
 {
-	while(time > 20 && data->someone_died == false)
+	long	start;
+
+	start = get_current_time_ms();
+	while (get_current_time_ms() - start < time)
 	{
-		usleep(time / 20);
-		time /= 20;
+		pthread_mutex_lock(&data->mutex_death);
+		if (data->someone_died == true)
+		{
+			pthread_mutex_unlock(&data->mutex_death);
+			return ;
+		}
+		pthread_mutex_unlock(&data->mutex_death);
+		usleep(1000);
 	}
+}
+int	 wait_start(t_data *data)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&data->m_start);
+		if (data->start == 1)
+		{
+			pthread_mutex_unlock(&data->m_start);
+			pthread_mutex_lock(&data->m_start_time);
+			if (data->start_time == 0)
+				data->start_time = get_current_time_ms();
+			pthread_mutex_unlock(&data->m_start_time);
+			return (0);
+		}
+		pthread_mutex_unlock(&data->m_start);
+		pthread_mutex_lock(&data->m_start);
+		if (data->start == 2)
+		{
+			pthread_mutex_unlock(&data->m_start);
+			return (-1);
+		}
+		pthread_mutex_unlock(&data->m_start);
+		usleep(100);
+	}
+	return (0);
 }
 void	*philos_loop(void *ptr)
 {
@@ -117,42 +158,58 @@ void	*philos_loop(void *ptr)
 	
 	philo = (t_philo *)ptr;
 	data = philo->data;
+	if (wait_start(data) != 0)
+		return (NULL);
 	if (philo->id % 2 != 0)
 		usleep(100);
-	while (1)
+	while (data->someone_died == false)
 	{
 		// ++data->race;
+		if (data->nb_philo == 1)
+		{
+			safe_print(data, philo->id, "is thinking");
+			pthread_mutex_lock(philo->left_fork);
+			safe_print(data, philo->id, "has taken a fork");
+			waiting(data, data->death_time);
+			pthread_mutex_unlock(philo->left_fork);
+			return (NULL);
+		}
 		if (check_death(data, philo) == true)
 			break;
 		safe_print(data, philo->id, "is thinking");
-		if (philo->id %2 == 0)
+		// if (data->nb_philo % 2 == 1)
+		// 	waiting(data, data->eat_time / 10);
+		// if (philo->id % 2 == 0)
 		{
 			pthread_mutex_lock(philo->left_fork);
+			safe_print(data, philo->id, "has taken a fork");
 			pthread_mutex_lock(philo->right_fork);
 			safe_print(data, philo->id, "has taken a fork");
 		}
-		else
-		{
-			pthread_mutex_lock(philo->right_fork);
-			pthread_mutex_lock(philo->left_fork);
-			safe_print(data, philo->id, "has taken a fork");
-		}
+		// else
+		// {
+		// 	pthread_mutex_lock(philo->right_fork);
+		// 	safe_print(data, philo->id, "has taken a fork");
+		// 	pthread_mutex_lock(philo->left_fork);
+		// 	safe_print(data, philo->id, "has taken a fork");
+		// }
 		safe_print(data, philo->id, "is eating");
 		pthread_mutex_lock(&data->mutex_death);
 		philo->time_last_meal = get_current_time_ms();
 		++philo->nb_meal;
 		pthread_mutex_unlock(&data->mutex_death);
-		usleep(data->eat_time);
-		if (philo->id % 2 == 0)
+		waiting(data, data->eat_time);
+		// usleep(data->eat_time);
+		// if (philo->id % 2 == 0)
 		{
 			pthread_mutex_unlock(philo->right_fork);
 			pthread_mutex_unlock(philo->left_fork);
 		}
-		else
-		{
-			pthread_mutex_unlock(philo->left_fork);
-			pthread_mutex_unlock(philo->right_fork);
-		}
+		// else
+		// {
+		// 	pthread_mutex_unlock(philo->left_fork);
+		// 	pthread_mutex_unlock(philo->right_fork);
+		// }
 		safe_print(data, philo->id, "is sleeping");
 		waiting(data, data->sleep_time);
 	}
@@ -170,6 +227,8 @@ void	free_data(t_data *data)
 	}
 	pthread_mutex_destroy(&data->mutex_print);
 	pthread_mutex_destroy(&data->mutex_death);
+	pthread_mutex_destroy(&data->m_start_time);
+	pthread_mutex_destroy(&data->m_start);
 	free(data->forks);
 	free(data->philos);
 }
@@ -186,14 +245,20 @@ int		create_threads(t_data *data)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL, philos_loop, &data->philos[i]) != 0)
 		{
+			pthread_mutex_lock(&data->m_start);
+			data->start = 2;
+			pthread_mutex_unlock(&data->m_start);
 			printf("Error: Failed to create thread\n");
 			return (-1);
 		}
 		++i;
 	}
+	// pthread_mutex_lock(&data->m_start);
+	data->start = 1;
+	// pthread_mutex_unlock(&data->m_start);
 	if (data->philos == NULL)
 		printf("philos is NULL\n");
-	if (pthread_create(&data->status_thread, NULL, status_loop, data) != 0)
+	if (pthread_create(&data->status_thread, NULL, status_loop, data) != 0) //TODO Virer le thread...
 	{
 		printf("Error: Failed to create status thread\n");
 		return (-1);
