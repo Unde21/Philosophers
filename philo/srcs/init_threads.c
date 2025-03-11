@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:27:46 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/11 03:23:35 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/11 03:39:11 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	*philos_loop(void *ptr)
 	if (wait_start(data) != 0)
 		return (NULL);
 	if (philo->id % 2 != 0)
-		usleep(100);
+		usleep(data->eat_time / 2);
 	while (data->someone_died == false)
 	{
 		// ++data->race;
