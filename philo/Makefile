@@ -5,6 +5,8 @@ SRCS := srcs/main.c \
 	srcs/parsing.c \
 	srcs/utils.c \
 	srcs/init_threads.c \
+	srcs/routine.c \
+	srcs/check_status.c \
 	
 
 # SRCSB := 

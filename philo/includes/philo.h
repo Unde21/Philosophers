@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/11 03:03:08 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 09:27:01 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ typedef struct s_data
 	pthread_t	status_thread;
 }	t_data;
 
+
+void	*philos_loop(void *ptr);
+void *status_loop(void *ptr);
+void safe_print(t_data *data, size_t id, char *str);
+bool	check_death(t_data *data, t_philo *philo);
 
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
