@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 15:25:51 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 19:56:36 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # define USG "Use: ./philo nb_philo [time_to:] die eat sleep [nb_must_eat]\n"
 # define MIN_TIME 60
+# define BLUE "\033[34m"
+# define RED "\033[31m"
+# define GREEN "\033[32m"
+# define YELLOW "\033[33m"
+# define MAGENTA "\033[35m"
 
 # include <unistd.h>
 # include <pthread.h>
@@ -43,7 +48,6 @@ typedef struct s_data
 	int		start;
 	// int		race;
 
-	
 	bool	someone_died;
 	pthread_mutex_t	mutex_print;
 	pthread_mutex_t	mutex_death;
@@ -56,9 +60,10 @@ typedef struct s_data
 
 
 void	*philos_loop(void *ptr);
+bool check_philo_ate_enough(t_data *data);
 void *status_loop(t_data *data, t_philo *philo);
 
-void safe_print(t_data *data, size_t id, char *str);
+void safe_print(t_data *data, size_t id, char *str, char *color_code);
 bool	check_death(t_data *data, t_philo *philo);
 void	waiting(t_data *data, long time);
 int	 wait_start(t_data *data);

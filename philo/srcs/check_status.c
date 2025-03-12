@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:59 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 15:46:56 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 21:58:26 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,29 @@
 bool	check_death(t_data *data, t_philo *philo)
 {
 	long	current_time;
+    // size_t  philo_id;
+// 
+    // philo_id = philo->id;
 	
-	pthread_mutex_lock(&data->mutex_death);
-	if (data->someone_died == true)
-	{
-		pthread_mutex_unlock(&data->mutex_death);
-		return (true);
-	}
+	// if (data->someone_died == true)
+	// {
+	// 	pthread_mutex_unlock(&data->mutex_death);
+	// 	return (true);
+	// }
 	current_time = get_current_time_ms();
+    // printf("Philo : %lu\n", philo->id + 1);
+    // printf("philo : %zu\n", philo->id);
+	// printf("philo : %zu\n", philo->id + 1);
+//   printf("Philo %zu: checking time - meal count = %zu\n", philo->id + 1, philo->nb_meal);
+	pthread_mutex_lock(&data->mutex_death);
 	if (current_time - philo->time_last_meal > data->death_time)
 	{
         // pthread_mutex_lock(&data->mutex_death);
 		data->someone_died = true;
-		pthread_mutex_unlock(&data->mutex_death);
 		pthread_mutex_lock(&data->mutex_print);
-		printf("%ld %lu died\n", get_current_time_ms() - data->start_time, philo->id + 1);
+		printf("\033[31m%ld %lu died\033[0m\n", current_time - data->start_time, philo->id + 1);
 		pthread_mutex_unlock(&data->mutex_print);
+		pthread_mutex_unlock(&data->mutex_death);
 		return (true);
 	}
 	pthread_mutex_unlock(&data->mutex_death);
@@ -47,7 +54,7 @@ bool check_philo_ate_enough(t_data *data)
         return (false);
     while (i < data->nb_philo)
     {
-        if (data->philos[i].nb_meal < (size_t)data->nb_eat)
+        if (data->philos[i].nb_meal < (size_t)data->nb_eat + 1)
             return (false);
 		++i;
     }
@@ -76,7 +83,7 @@ void *status_loop(t_data *data, t_philo *philo)
             pthread_mutex_unlock(&data->mutex_death);
 			++i;
         }
-        usleep(1000);
+        usleep(500);
     }
     return NULL;
 }
