@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:51:41 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 21:19:38 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 22:13:10 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	waiting(t_data *data, long time)
 		elapsed = get_current_time_ms() - start;
 	}
 }
-int	 wait_start(t_data *data)
+
+int	wait_start(t_data *data)
 {
 	while (1)
 	{
