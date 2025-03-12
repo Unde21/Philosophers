@@ -7,6 +7,7 @@ SRCS := srcs/main.c \
 	srcs/init_threads.c \
 	srcs/routine.c \
 	srcs/check_status.c \
+	srcs/waiting.c \
 	
 
 # SRCSB := 

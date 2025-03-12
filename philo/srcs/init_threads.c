@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:27:46 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 09:24:59 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 15:38:01 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ wait que tout les threads soit  creer au debut de philos_loop quit properly if o
 
 */
 
+
 long	get_current_time_ms(void)
 {
 	struct timeval current;
@@ -31,9 +32,14 @@ long	get_current_time_ms(void)
 
 void safe_print(t_data *data, size_t id, char *str)
 {
+    pthread_mutex_lock(&data->mutex_death);
 	if (data->someone_died == true)
+	{
+		pthread_mutex_unlock(&data->mutex_death);
 		return ;
+	}
     pthread_mutex_lock(&data->mutex_print);
+    pthread_mutex_unlock(&data->mutex_death);
     printf("%ld %lu %s\n", get_current_time_ms() - data->start_time, id + 1, str);
     pthread_mutex_unlock(&data->mutex_print);
 }
@@ -61,9 +67,6 @@ int		create_threads(t_data *data)
 	size_t	i;
 
 	i = 0;
-
-	// data->race = 0;
-	
 	while (i < data->nb_philo)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL, philos_loop, &data->philos[i]) != 0)
@@ -76,17 +79,18 @@ int		create_threads(t_data *data)
 		}
 		++i;
 	}
-	// pthread_mutex_lock(&data->m_start);
+	pthread_mutex_lock(&data->m_start);
 	data->start = 1;
-	// pthread_mutex_unlock(&data->m_start);
-	if (data->philos == NULL)
-		printf("philos is NULL\n");
-	if (pthread_create(&data->status_thread, NULL, status_loop, data) != 0) //TODO Virer le thread...
-	{
-		printf("Error: Failed to create status thread\n");
-		return (-1);
-	}
-	pthread_join(data->status_thread, NULL);
+	pthread_mutex_unlock(&data->m_start);
+	// if (data->philos == NULL)
+	// 	printf("philos is NULL\n");
+	// if (pthread_create(&data->status_thread, NULL, status_loop, data) != 0) //TODO Virer le thread...
+	// {
+	// 	printf("Error: Failed to create status thread\n");
+	// 	return (-1);
+	// }
+	status_loop(data, data->philos);
+	// pthread_join(data->status_thread, NULL);
 	i = 0;
 	while (i < data->nb_philo)
 	{
@@ -96,3 +100,30 @@ int		create_threads(t_data *data)
 	free_data(data);
 	return (0);
 }
+
+/*
+bool check_death(t_data *data, t_philo *philo)
+{
+    long current_time;
+    
+    pthread_mutex_lock(&data->mutex_death);
+    if (data->someone_died == true)
+    {
+        pthread_mutex_unlock(&data->mutex_death);
+        return (true);
+    }
+    current_time = get_current_time_ms();
+    if (current_time - philo->time_last_meal > data->death_time)
+    {
+        data->someone_died = true;
+        pthread_mutex_unlock(&data->mutex_death);
+        
+        pthread_mutex_lock(&data->mutex_print);
+        printf("%ld %lu died\n", get_current_time_ms() - data->start_time, philo->id + 1);
+        pthread_mutex_unlock(&data->mutex_print);
+        
+        return (true);
+    }
+    pthread_mutex_unlock(&data->mutex_death);
+    return (false);
+}*/

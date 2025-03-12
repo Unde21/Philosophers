@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 09:27:01 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 15:25:51 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,17 @@ typedef struct s_data
 	pthread_mutex_t m_start_time;
 	pthread_mutex_t m_start; //TODO faire sa partout
 	t_philo		*philos;
-	pthread_t	status_thread;
+	// pthread_t	status_thread;
 }	t_data;
 
 
 void	*philos_loop(void *ptr);
-void *status_loop(void *ptr);
+void *status_loop(t_data *data, t_philo *philo);
+
 void safe_print(t_data *data, size_t id, char *str);
 bool	check_death(t_data *data, t_philo *philo);
+void	waiting(t_data *data, long time);
+int	 wait_start(t_data *data);
 
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);

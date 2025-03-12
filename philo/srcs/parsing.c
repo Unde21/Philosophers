@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/11 03:06:17 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/12 12:15:55 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,10 @@ static	bool init_data(t_data *data, int ac, char **av)
 	data->start = 0;
 	data->nb_philo = ft_atoi(av[1], 0);
 	if (data->nb_philo > 2000)
+	{
+		ft_putstr_fd("Too many philosophers\n", 2);
 		return (false);
+	}
 	data->death_time = ft_atoi(av[2], 0);
 	data->eat_time = ft_atoi(av[3], 0);
 	data->sleep_time = ft_atoi(av[4], 0);
@@ -156,9 +159,7 @@ int	check_params(t_data *data, int ac, char **av)
 	{
 		if (is_integer(av[i]) == false)
 		{
-			ft_putstr_fd("Invalid arg[", 2);
-			ft_putchar_fd(i + 48, 2);
-			write(2, "] !\n", 4);
+			ft_putstr_fd("Invalid params\n", 2);
 			return (-1);
 		}
 		++i;
