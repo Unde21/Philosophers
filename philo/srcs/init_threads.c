@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:27:46 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 11:54:39 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 18:02:12 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,18 @@ void	safe_print(t_data *data, size_t id, char *str, char *color_code)
 	current_time = get_current_time_ms() - data->start_time;
 	pthread_mutex_lock(&data->mutex_print);
 	pthread_mutex_unlock(&data->mutex_death);
-	if (ft_strcmp(color_code, BLUE) == 0)
-		printf("\033[34m%ld %lu %s\033[0m\n", current_time, id + 1, str);
-	else if (ft_strcmp(color_code, RED) == 0)
-		printf("\033[31m%ld %lu %s\033[0m\n", current_time, id + 1, str);
-	else if (ft_strcmp(color_code, GREEN) == 0)
-		printf("\033[32m%ld %lu %s\033[0m\n", current_time, id + 1, str);
-	else if (ft_strcmp(color_code, YELLOW) == 0)
-		printf("\033[33m%ld %lu %s\033[0m\n", current_time, id + 1, str);
-	else if (ft_strcmp(color_code, MAGENTA) == 0)
-		printf("\033[35m%ld %lu %s\033[0m\n", current_time, id + 1, str);
+	printf("%ld %lu %s\n", current_time, id + 1, str);
+	(void)color_code;
+	// if (ft_strcmp(color_code, BLUE) == 0)
+	// 	printf("\033[34m%ld %lu %s\033[0m\n", current_time, id + 1, str);
+	// else if (ft_strcmp(color_code, RED) == 0)
+	// 	printf("\033[31m%ld %lu %s\033[0m\n", current_time, id + 1, str);
+	// else if (ft_strcmp(color_code, GREEN) == 0)
+	// 	printf("\033[32m%ld %lu %s\033[0m\n", current_time, id + 1, str);
+	// else if (ft_strcmp(color_code, YELLOW) == 0)
+	// 	printf("\033[33m%ld %lu %s\033[0m\n", current_time, id + 1, str);
+	// else if (ft_strcmp(color_code, MAGENTA) == 0)
+	// 	printf("\033[35m%ld %lu %s\033[0m\n", current_time, id + 1, str);
 	pthread_mutex_unlock(&data->mutex_print);
 }
 
@@ -97,6 +99,7 @@ int	create_threads(t_data *data)
 		if (pthread_create(&data->philos[i].thread, NULL, philos_loop,
 				&data->philos[i]) != 0)
 		{
+			// si un qui pete il faut pthread_join le nb de mutex creer
 			pthread_mutex_lock(&data->m_start);
 			data->start = 2;
 			pthread_mutex_unlock(&data->m_start);

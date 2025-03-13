@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:59 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 11:50:15 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 18:12:01 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ bool	check_death(t_data *data, t_philo *philo)
 	{
 		data->someone_died = true;
 		pthread_mutex_lock(&data->mutex_print);
-		printf("\033[31m%ld %lu died\033[0m\n", current_time - data->start_time,
+		// printf("\033[31m%ld %lu died\033[0m\n", current_time - data->start_time,
+		// 	philo->id + 1);
+		printf("%ld %lu died\n", current_time - data->start_time,
 			philo->id + 1);
 		pthread_mutex_unlock(&data->mutex_print);
 		pthread_mutex_unlock(&data->mutex_death);
@@ -70,7 +72,7 @@ void	*status_loop(t_data *data, t_philo *philo)
 			pthread_mutex_unlock(&data->mutex_death);
 			++i;
 		}
-		usleep(500);
+		// usleep(1000);
 	}
 	return (NULL);
 }

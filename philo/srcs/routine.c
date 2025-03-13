@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:00 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 12:27:37 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 18:13:59 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ int	handle_fork(t_data *data, t_philo *philo)
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
+	if (data->sleep_time < data->eat_time)
+		pthread_mutex_lock(&philo->aled);
 	pthread_mutex_lock(first_fork);
+	if (data->sleep_time < data->eat_time)
+		pthread_mutex_unlock(&philo->aled);
 	safe_print(data, philo->id, "has taken a fork", GREEN);
 	pthread_mutex_lock(second_fork);
+	
 	safe_print(data, philo->id, "has taken a fork", GREEN);
 	pthread_mutex_lock(&data->mutex_death);
 	if (data->someone_died == true)

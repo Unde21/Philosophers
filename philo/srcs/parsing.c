@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 09:46:11 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 17:57:04 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ bool	init_forks(t_data *data)
 			return (false);
 		++i;
 	}
+	if (pthread_mutex_init(&data->philos->aled, NULL) != 0) // aled
+		return (false);
 	return (true);
 }
 
