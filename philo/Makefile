@@ -1,10 +1,12 @@
 NAME = philo
 
 SRCS := srcs/main.c \
-	srcs/ft_atoi.c \
 	srcs/parsing.c \
+	srcs/ft_atoi.c \
+	srcs/init.c \
+	srcs/print.c \
 	srcs/utils.c \
-	srcs/init_threads.c \
+	srcs/create_threads.c \
 	srcs/routine.c \
 	srcs/check_status.c \
 	srcs/waiting.c \

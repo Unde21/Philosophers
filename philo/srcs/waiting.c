@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:51:41 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 18:11:13 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 20:12:03 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	waiting(t_data *data, long time)
 	start = get_current_time_ms();
 	while (elapsed < time)
 	{
-		pthread_mutex_lock(&data->mutex_death);
+		pthread_mutex_lock(&data->m_end);
 		if (data->someone_died == true)
 		{
-			pthread_mutex_unlock(&data->mutex_death);
+			pthread_mutex_unlock(&data->m_end);
 			return ;
 		}
-		pthread_mutex_unlock(&data->mutex_death);
+		pthread_mutex_unlock(&data->m_end);
 		usleep(250);
 		elapsed = get_current_time_ms() - start;
 	}
