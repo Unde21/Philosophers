@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:00 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 18:13:59 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 19:38:46 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_fork(t_data *data, t_philo *philo)
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
 
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 	{
 		first_fork = philo->left_fork;
 		second_fork = philo->right_fork;
@@ -37,11 +37,18 @@ int	handle_fork(t_data *data, t_philo *philo)
 		first_fork = philo->right_fork;
 		second_fork = philo->left_fork;
 	}
-	if (data->sleep_time < data->eat_time)
-		pthread_mutex_lock(&philo->aled);
+	// pthread_mutex_lock(&data->mutex_death);
+	// if (get_current_time_ms() - philo->time_last_meal < data->death_time - data->sleep_time)
+	// {
+	// 	printf("aled philo: %lu\n", philo->id + 1);
+	// 	usleep(500);
+	// }
+	// pthread_mutex_unlock(&data->mutex_death);
+	// if (data->sleep_time < data->eat_time)
+	// 	pthread_mutex_lock(&philo->aled);
 	pthread_mutex_lock(first_fork);
-	if (data->sleep_time < data->eat_time)
-		pthread_mutex_unlock(&philo->aled);
+	// if (data->sleep_time < data->eat_time)
+	// 	pthread_mutex_unlock(&philo->aled);
 	safe_print(data, philo->id, "has taken a fork", GREEN);
 	pthread_mutex_lock(second_fork);
 	
