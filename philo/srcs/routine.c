@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:00 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 11:59:43 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 12:27:37 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	eating(t_data *data, t_philo *philo)
 {
 	safe_print(data, philo->id, "is eating", YELLOW);
-	waiting(data, data->eat_time);
 	pthread_mutex_lock(&data->mutex_death);
 	++philo->nb_meal;
 	philo->time_last_meal = get_current_time_ms();
 	pthread_mutex_unlock(&data->mutex_death);
+	waiting(data, data->eat_time);
 }
 #include <stdio.h>
 int	handle_fork(t_data *data, t_philo *philo)
