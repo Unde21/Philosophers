@@ -8,16 +8,11 @@ SRCS := srcs/main.c \
 	srcs/utils.c \
 	srcs/create_threads.c \
 	srcs/routine.c \
+	srcs/action.c \
 	srcs/check_status.c \
 	srcs/waiting.c \
 	
-
-# SRCSB := 
-
 HEADER := includes/philo.h
-
-# HEADERB := includes/
-
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -g3
 CPPFFLAGS := -MMD -MP
@@ -25,15 +20,11 @@ CPPFFLAGS := -MMD -MP
 RM := rm -rf
 
 SRC_DIR := srcs/
-# SRCB_DIR := srcs_bonus/
 OBJ_DIR := .objs/
-# OBJB_DIR := .objs_bonus/
 DEPS := $(OBJS:.o=.d)
-# DEPSB := $(OBJSB:.o=.d)
 INCS := -I./includes -I./libft
 
 OBJS := $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
-# OBJSB := $(patsubst $(SRCB_DIR)%.c,$(OBJB_DIR)%.o,$(SRCSB))
 
 BOLD := \033[1m
 GREEN := \033[0;32m
@@ -52,7 +43,6 @@ CLEAN := "🧹"
 DONE := "🏁"
 
 -include $(DEPS)
-# -include $(DEPSB)
 
 all: $(NAME)
 
@@ -67,17 +57,6 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 
 $(OBJ_DIR):
 	@mkdir -p $@
-
-# $(OBJB_DIR)%.o: $(SRCB_DIR)%.c $(HEADERB)
-# 	@mkdir -p $(dir $@)
-# 	@$(CC) $(CFLAGS) $(INCS) $(CPPFFLAGS) -c -o $@ $<
-
-# bonus: .bonus
-
-# .bonus: libft/libft.a $(OBJSB) Makefile
-# 	$(CC) $(CFLAGS) $(OBJSB) $(INCS) ./libft/libft.a  -o $(NAME)
-# 	@echo "$(MAGENTA)$(BOLD)$(FIRE)$(NAME) Bonus made successfully!$(OK)$(END)"
-#.PHONY: bonus
 
 clean:
 	@$(RM) $(OBJ_DIR)

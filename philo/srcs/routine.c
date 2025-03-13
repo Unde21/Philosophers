@@ -6,76 +6,46 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:00 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 20:33:46 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/14 00:07:07 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	eating(t_data *data, t_philo *philo)
-{
-	safe_print(data, philo->id, "is eating");
-	pthread_mutex_lock(&data->m_end);
-	++philo->nb_meal;
-	philo->time_last_meal = get_current_time_ms();
-	pthread_mutex_unlock(&data->m_end);
-	waiting(data, data->eat_time);
-}
-
-static int	handle_fork(t_data *data, t_philo *philo)
-{
-	pthread_mutex_t	*first_fork;
-	pthread_mutex_t	*second_fork;
-
-	if (data->nb_philo % 2 == 0)
-	{
-		
-		if (philo->id % 2 == 0)
-		{
-			first_fork = philo->left_fork;
-			second_fork = philo->right_fork;
-		}
-		else
-		{
-			first_fork = philo->right_fork;
-			second_fork = philo->left_fork;
-		}
-	}
-	else
-	{
-		first_fork = philo->left_fork;
-		second_fork = philo->right_fork;
-	}
-	pthread_mutex_lock(first_fork);
-	safe_print(data, philo->id, "has taken a fork");
-	pthread_mutex_lock(second_fork);
-	
-	safe_print(data, philo->id, "has taken a fork");
-	pthread_mutex_lock(&data->m_end);
-	if (data->someone_died == true)
-	{
-		pthread_mutex_unlock(first_fork);
-		pthread_mutex_unlock(second_fork);
-		pthread_mutex_unlock(&data->m_end);
-		return (-1);
-	}
-	pthread_mutex_unlock(&data->m_end);
-	eating(data, philo);
-	pthread_mutex_unlock(first_fork);
-	pthread_mutex_unlock(second_fork);
-	return (0);
-}
-
 static void	only_one(t_data *data, t_philo *philo)
 {
-	safe_print(data, philo->id, "is thinking");
+	safe_print(data, philo->id, MSG_THINK);
 	pthread_mutex_lock(philo->left_fork);
-	safe_print(data, philo->id, "has taken a fork");
+	safe_print(data, philo->id, MSG_FORK);
 	waiting(data, data->death_time);
 	pthread_mutex_unlock(philo->left_fork);
 }
 
-void	*philos_loop(void *ptr)
+static void	routine_loop(t_data *data, t_philo *philo, bool first_think)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&data->m_end);
+		if (data->someone_died == true)
+		{
+			pthread_mutex_unlock(&data->m_end);
+			break ;
+		}
+		pthread_mutex_unlock(&data->m_end);
+		if (first_think == false)
+		{
+			safe_print(data, philo->id, MSG_THINK);
+			usleep(500);
+		}
+		first_think = false;
+		if (handle_fork(data, philo) != 0)
+			break ;
+		safe_print(data, philo->id, MSG_SLEEP);
+		waiting(data, data->sleep_time);
+	}
+}
+
+void	*start_routine(void *ptr)
 {
 	t_philo	*philo;
 	t_data	*data;
@@ -93,28 +63,9 @@ void	*philos_loop(void *ptr)
 	}
 	if (philo->id % 2 == 0)
 	{
-		safe_print(data, philo->id, "is thinking");
+		safe_print(data, philo->id, MSG_THINK);
 		waiting(data, data->eat_time / 2);
 	}
-	while (1)
-	{
-		pthread_mutex_lock(&data->m_end);
-		if (data->someone_died == true)
-		{
-			pthread_mutex_unlock(&data->m_end);
-			break ;
-		}
-		pthread_mutex_unlock(&data->m_end);
-		if (first_think == false)
-		{
-			safe_print(data, philo->id, "is thinking");
-			usleep(500);
-		}
-		first_think = false;
-		if (handle_fork(data, philo) != 0)
-			break ;
-		safe_print(data, philo->id, "is sleeping");
-		waiting(data, data->sleep_time);
-	}
+	routine_loop(data, philo, first_think);
 	return (NULL);
 }

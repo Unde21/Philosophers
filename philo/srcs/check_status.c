@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:59 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 20:36:56 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 23:40:47 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static bool	check_philo_ate_enough(t_data *data)
 	return (true);
 }
 
-void	*status_loop(t_data *data, t_philo *philo)
+void	*supervisor(t_data *data, t_philo *philo)
 {
 	size_t	i;
 

@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:51:41 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 20:12:03 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 23:55:09 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	wait_start(t_data *data)
 	while (1)
 	{
 		pthread_mutex_lock(&data->m_start);
-		if (data->start == 1)
+		if (data->start == ALL_THREAD_CREATED)
 		{
 			pthread_mutex_unlock(&data->m_start);
 			pthread_mutex_lock(&data->m_start_time);
@@ -49,7 +49,7 @@ int	wait_start(t_data *data)
 		}
 		pthread_mutex_unlock(&data->m_start);
 		pthread_mutex_lock(&data->m_start);
-		if (data->start == 2)
+		if (data->start == ERR_THREAD)
 		{
 			pthread_mutex_unlock(&data->m_start);
 			return (-1);

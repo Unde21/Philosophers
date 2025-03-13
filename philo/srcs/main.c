@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:48 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 20:12:18 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/14 00:11:16 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	main(int ac, char **av)
 		return (1);
 	if (create_threads(&data) != 0)
 	{
-		free(data.m_forks);
-		free(data.philos);
+		free_data(&data);
 		return (1);
 	}
 	return (0);
