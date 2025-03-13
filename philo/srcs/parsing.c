@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 22:12:12 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 09:46:11 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	init_struct_philos(t_data *data)
 		++i;
 	}
 }
+
 bool	init_threads(t_data *data)
 {
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
@@ -134,7 +135,9 @@ static bool	init_data(t_data *data, int ac, char **av)
 		data->nb_eat = ft_atoi(av[5], 0);
 	else
 		data->nb_eat = -1;
-	data->start_time = get_current_time_ms(); // TODO secure le premier appel
+	data->start_time = get_current_time_ms();
+	if (data->start_time == -1)
+		return (false);
 	data->someone_died = false;
 	if (check_value(data) == false)
 		return (false);

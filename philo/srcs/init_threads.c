@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:27:46 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 22:12:15 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 09:46:43 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ long	get_current_time_ms(void)
 {
 	struct timeval	current;
 
-	gettimeofday(&current, NULL);
-	return (current.tv_sec * 1000 + current.tv_usec / 1000);
+	if (gettimeofday(&current, NULL) == 1)
+		return (-1);
+	else
+		return (current.tv_sec * 1000 + current.tv_usec / 1000);
 }
 int	ft_strcmp(const char *s1, const char *s2)
 {

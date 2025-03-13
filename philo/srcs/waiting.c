@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:51:41 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/12 22:13:10 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 10:26:21 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	wait_start(t_data *data)
 			return (-1);
 		}
 		pthread_mutex_unlock(&data->m_start);
-		usleep(1000);
+		usleep(500);
 	}
 	return (0);
 }

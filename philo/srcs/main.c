@@ -6,12 +6,11 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:48 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/07 04:47:13 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 09:40:27 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdio.h> //TODO remove library
 #include <stdlib.h>
 
 int	main(int ac, char **av)
