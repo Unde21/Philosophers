@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:00 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/13 11:33:44 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/13 11:59:43 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_fork(t_data *data, t_philo *philo)
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
 
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 	{
 		first_fork = philo->left_fork;
 		second_fork = philo->right_fork;
