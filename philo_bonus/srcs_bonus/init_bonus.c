@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:04 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 11:13:46 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 13:16:59 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 #include <fcntl.h> 
 #include <stdlib.h>
 
-static void	init_struct_philos(t_data *data)
+static bool	init_struct_philos(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
+	data->philos = malloc(sizeof(t_philo) * data->nb_philo);
+	if (data->philos == NULL)
+	{
+		ft_putstr_fd(ERR_MALLOC, 2);
+		return (false);
+	}
 	while (i < data->nb_philo)
 	{
 		data->philos[i].id = i;
@@ -27,7 +33,8 @@ static void	init_struct_philos(t_data *data)
 		data->philos[i].data = data;
 		++i;
 	}
-	data->philos->philos_alive == true;
+	data->philos->philos_alive = true;
+	return (true);
 }
 
 bool	init_semaphores(t_data *data)
@@ -42,6 +49,7 @@ bool	init_semaphores(t_data *data)
 	if (data->forks == SEM_FAILED)
 	{
 		ft_putstr_fd(ERR_SEM, 2);
+		sem_close(data->death_lock);
 		sem_unlink("/death_lock");
 		return (false);
 	}
@@ -49,6 +57,8 @@ bool	init_semaphores(t_data *data)
 	if (data->print_lock == SEM_FAILED)
 	{
 		ft_putstr_fd(ERR_SEM, 2);
+		sem_close(data->death_lock);
+		sem_close(data->forks);
 		sem_unlink("/forks");
 		sem_unlink("/death_lock");
 		return (false);
@@ -63,7 +73,10 @@ bool	init_data(t_data *data, int ac, char **av)
 	data->nb_philo = ft_atoi(av[1], 0);
 	data->pid = malloc(sizeof(pid_t) * data->nb_philo);
 	if (data->pid == NULL)
+	{
+		ft_putstr_fd(ERR_MALLOC, 2);
 		return (false);
+	}
 	if (data->nb_philo > 2000)
 	{
 		ft_putstr_fd(TOO_MANY_PHILO, 2);
@@ -77,9 +90,7 @@ bool	init_data(t_data *data, int ac, char **av)
 	else
 		data->nb_eat = -1;
 	data->start_time = get_current_time_ms();
-	if (data->start_time == -1)
-		return (false);
-	if (check_value(data) == false)
+	if (data->start_time == -1 || check_value(data) == false)
 		return (false);
 	return (true);
 }

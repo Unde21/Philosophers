@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:35:23 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 11:20:09 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 13:21:04 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ static void	routine_loop(t_data *data, t_philo *philo, size_t current)
 		waiting(data, data->sleep_time);
 	}
 }
-
+//Library
+#include <stdio.h>
 void	routine(t_data *data, size_t current)
 {
+	// if (wait_start(data) != 0)
+	// 	return ;
 	if (data->nb_philo == 1)
 	{
 		only_one(data, data->philos);
-		return (NULL);
+		return ;
 	}
 	if (data->pid[current] % 2 == 0)
 	{
@@ -52,6 +55,6 @@ void	routine(t_data *data, size_t current)
 		waiting(data, data->eat_time / 2);
 	}
 	routine_loop(data, data->philos, current);
-	return (NULL);
+	return ;
 	
 }

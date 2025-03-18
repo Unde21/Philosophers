@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:32:35 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 10:40:13 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 12:32:30 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	child_creation_loop(t_data *data)
 		data->pid[i] = fork();
 		if (data->pid < 0)
 		{
+			data->start = ERR_PROCESS;
 			ft_putstr_fd(ERR_FORK, 2);
 			kill_all(data, i);
 			return (-1);
@@ -41,6 +42,7 @@ static int	child_creation_loop(t_data *data)
 			routine(data, i);
 		++i;
 	}
+	data->start = ALL_PROCESS_CREATED;
 	return (0);
 }
 

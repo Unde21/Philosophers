@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:13:25 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 10:56:02 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 12:57:40 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void	clear_data(t_data *data)
 	sem_unlink("/death_lock");
 	sem_unlink("/forks");
 	sem_unlink("/print_lock");
-	free(data->pid);
+	if (data->pid != NULL)
+		free(data->pid);
+	if (data->philos != NULL)
+		free(data->philos);
 }
 
 long	get_current_time_ms(void)

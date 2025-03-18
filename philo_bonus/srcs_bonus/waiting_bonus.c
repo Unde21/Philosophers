@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 11:10:33 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 13:20:55 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,25 @@ void	waiting(t_data *data, long time)
 		usleep(250);
 		elapsed = get_current_time_ms() - start;
 	}
+}
+
+int	wait_start(t_data *data)
+{
+	while (1)
+	{
+		sem_wait(data->start_lock);
+		if (data->start == ALL_PROCESS_CREATED)
+		{
+			sem_post(data->start_lock);
+			return (0);
+		}
+		if (data->start == ERR_PROCESS)
+		{
+			sem_post(data->start_lock);
+			return (-1);
+		}
+		sem_post(data->start_lock);
+		usleep(500);
+	}
+	return (0);
 }

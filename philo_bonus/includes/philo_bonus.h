@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 11:14:34 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 12:42:18 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ time_to_sleep, [nb_must_eat]\n"
 # define ERR_SEM "sem_open failed\n"
 # define ERR_FORK "fork failed\n"
 # define MIN_TIME 60
-
+# define ALL_PROCESS_CREATED 1
+# define ERR_PROCESS 2
 
 # define MSG_FORK "has taken a fork"
 # define MSG_EATING "is eating"
@@ -62,6 +63,7 @@ typedef struct s_data
 	sem_t	*death_lock;
 	sem_t	*forks;
 	sem_t	*print_lock;
+	sem_t	*start_lock;
 	t_philo	*philos;
 } t_data;
 
@@ -78,5 +80,8 @@ long	get_current_time_ms(void);
 bool	check_value(t_data *data);
 void	routine(t_data *data, size_t current);
 void	waiting(t_data *data, long time);
+int	wait_start(t_data *data);
+int	handle_fork(t_data *data, t_philo *philo, size_t current);
+void	safe_print(t_data *data, size_t id, char *str);
 
 #endif
