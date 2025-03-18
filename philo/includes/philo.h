@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/14 00:28:32 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 08:43:54 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 # define USG \
 	"Use: ./philo nb_philo, time_to_die, time_to_eat, \
 time_to_sleep, [nb_must_eat]\n"
-# define ERR_MALLOC "Malloc failed"
-# define ERR_ARG "Invalid params\n"
+# define ERR_MALLOC "Malloc failed\n"
+# define ERR_ARG "Invalid parameters\n"
 # define ERR_NB_PHILO "Invalid numbers of Philosophers\n"
 # define TOO_MANY_PHILO "Too many philosophers\n"
 # define ERR_EAT "eat_time must be greater than 60ms\n"
 # define ERR_SLEEP "sleep_time must be greater than 60ms\n"
 # define ERR_DEATH "death_time must be greater than 60ms\n"
 # define MIN_TIME 60
-# define ERR_INIT_MUTEX "Failed to init mutex"
+# define ERR_INIT_MUTEX "Failed to init mutex\n"
 # define ERR_MSG_THREAD "Failed to create thread\n"
 # define ERR_THREAD 2
 # define ALL_THREAD_CREATED 1

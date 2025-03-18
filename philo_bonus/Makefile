@@ -1,26 +1,23 @@
-NAME = philo
+NAME = philo_bonus
 
-SRCS := srcs/main.c \
-	srcs/parsing.c \
-	srcs/ft_atoi.c \
-	srcs/init.c \
-	srcs/print.c \
-	srcs/utils.c \
-	srcs/create_threads.c \
-	srcs/routine.c \
-	srcs/action.c \
-	srcs/check_status.c \
-	srcs/waiting.c \
+SRCS := srcs_bonus/main_bonus.c \
+	srcs_bonus/parsing_bonus.c \
+	srcs_bonus/ft_atoi_bonus.c \
+	srcs_bonus/print_bonus.c \
+	srcs_bonus/utils_bonus.c \
+	srcs_bonus/init_bonus.c \
+	srcs_bonus/init_child_bonus.c \
+
 	
-HEADER := includes/philo.h
+HEADER := includes/philo_bonus.h
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -g3
 CPPFFLAGS := -MMD -MP
 
 RM := rm -rf
 
-SRC_DIR := srcs/
-OBJ_DIR := .objs/
+SRC_DIR := srcs_bonus/
+OBJ_DIR := .objs_bonus/
 DEPS := $(OBJS:.o=.d)
 INCS := -I./includes
 

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 01:42:45 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 09:01:21 by samaouch         ###   ########lyon.fr   */
+/*   Created: 2025/03/18 08:38:41 by samaouch          #+#    #+#             */
+/*   Updated: 2025/03/18 09:18:18 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-#include <stdlib.h>
+#include "philo_bonus.h"
+#include <unistd.h>
 
-static bool	is_integer(char *s)
+static bool is_integer(char *s)
 {
 	size_t	i;
 	int		check_error;
 
 	check_error = 0;
 	i = 0;
-	while (s[i])
+	while(s[i])
 	{
 		if (s[i] < '0' || s[i] > '9')
 			return (false);
@@ -76,6 +76,7 @@ int	check_params(t_data *data, int ac, char **av)
 		}
 		++i;
 	}
+	(void)data;
 	if (init_data(data, ac, av) == false)
 		return (-1);
 	return (0);
