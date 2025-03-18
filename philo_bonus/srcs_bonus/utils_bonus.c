@@ -6,11 +6,12 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:13:25 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 09:21:45 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 10:56:02 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+#include <stdlib.h>
 
 size_t	ft_strlen(char *s)
 {
@@ -20,6 +21,17 @@ size_t	ft_strlen(char *s)
 	while (s[i])
 		++i;
 	return (i);
+}
+
+void	clear_data(t_data *data)
+{
+	sem_close(data->forks);
+	sem_close(data->print_lock);
+	sem_close(data->death_lock);
+	sem_unlink("/death_lock");
+	sem_unlink("/forks");
+	sem_unlink("/print_lock");
+	free(data->pid);
 }
 
 long	get_current_time_ms(void)

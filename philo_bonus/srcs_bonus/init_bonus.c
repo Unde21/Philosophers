@@ -6,11 +6,13 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:04 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 09:20:41 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 11:13:46 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+#include <fcntl.h> 
+#include <stdlib.h>
 
 static void	init_struct_philos(t_data *data)
 {
@@ -25,12 +27,43 @@ static void	init_struct_philos(t_data *data)
 		data->philos[i].data = data;
 		++i;
 	}
+	data->philos->philos_alive == true;
+}
+
+bool	init_semaphores(t_data *data)
+{
+	data->death_lock = sem_open("/death_lock", O_CREAT, 0644, 1);
+	if (data->death_lock == SEM_FAILED)
+	{
+		ft_putstr_fd(ERR_SEM, 2);
+		return (false);
+	}
+	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_philo);
+	if (data->forks == SEM_FAILED)
+	{
+		ft_putstr_fd(ERR_SEM, 2);
+		sem_unlink("/death_lock");
+		return (false);
+	}
+	data->print_lock = sem_open("/print_lock", O_CREAT, 0644, 1);
+	if (data->print_lock == SEM_FAILED)
+	{
+		ft_putstr_fd(ERR_SEM, 2);
+		sem_unlink("/forks");
+		sem_unlink("/death_lock");
+		return (false);
+	}
+	init_struct_philos(data);
+	return (true);
 }
 
 bool	init_data(t_data *data, int ac, char **av)
 {
 	data->start = 0;
 	data->nb_philo = ft_atoi(av[1], 0);
+	data->pid = malloc(sizeof(pid_t) * data->nb_philo);
+	if (data->pid == NULL)
+		return (false);
 	if (data->nb_philo > 2000)
 	{
 		ft_putstr_fd(TOO_MANY_PHILO, 2);
@@ -46,7 +79,6 @@ bool	init_data(t_data *data, int ac, char **av)
 	data->start_time = get_current_time_ms();
 	if (data->start_time == -1)
 		return (false);
-	data->someone_died = false;
 	if (check_value(data) == false)
 		return (false);
 	return (true);

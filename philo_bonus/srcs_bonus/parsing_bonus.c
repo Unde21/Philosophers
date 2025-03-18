@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:38:41 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 09:18:18 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/18 10:20:36 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ int	check_params(t_data *data, int ac, char **av)
 		}
 		++i;
 	}
-	(void)data;
 	if (init_data(data, ac, av) == false)
+		return (-1);
+	if (init_semaphores(data) == false)
 		return (-1);
 	return (0);
 }

@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*   waiting_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 08:33:27 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 10:29:20 by samaouch         ###   ########lyon.fr   */
+/*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
+/*   Updated: 2025/03/18 11:10:33 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	main(int ac, char **av)
+void	waiting(t_data *data, long time)
 {
-	t_data	data;
+	long	start;
+	long	elapsed;
 	
-	if (check_params(&data, ac, av) != 0)
-		return (1);
-	if (init_child(&data) != 0)
+	elapsed = 0;
+	start = get_current_time_ms();
+	while (elapsed < time)
 	{
-		clear_data(&data);
-		return (1);
+		sem_wait(data->death_lock);
+		if (data->philos->philos_alive == false)
+		{
+			sem_post(data->death_lock);
+			return ;
+		}
+		sem_post(data->death_lock);
+		usleep(250);
+		elapsed = get_current_time_ms() - start;
 	}
-	return (0);
 }
