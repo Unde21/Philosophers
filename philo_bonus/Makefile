@@ -10,6 +10,7 @@ SRCS := srcs_bonus/main_bonus.c \
 	srcs_bonus/routine_bonus.c \
 	srcs_bonus/waiting_bonus.c \
 	srcs_bonus/action_bonus.c \
+	srcs_bonus/supervisor_bonus.c \
 
 	
 HEADER := includes/philo_bonus.h

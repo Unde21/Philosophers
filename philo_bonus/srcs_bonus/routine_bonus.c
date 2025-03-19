@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:35:23 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 13:21:04 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 12:13:40 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 static	void only_one(t_data *data, t_philo *philo)
 {
-	safe_print(data, philo->id, MSG_THINK);
+	safe_print(data, philo->id[1], MSG_THINK);
 	//TODO Secure with semaphore FORK ?
-	safe_print(data, philo->id, MSG_FORK);
+	safe_print(data, philo->id[1], MSG_FORK);
 	waiting(data, data->death_time);
 	//TODO close semaphore ?
 }
-
+//TODO libraryyyyyyy
+#include <stdio.h>
+#include <stdlib.h>
 static void	routine_loop(t_data *data, t_philo *philo, size_t current)
 {
 	while (1)
 	{
-		sem_wait(data->death_lock);
-		if (philo->philos_alive == false)
-		{
-			sem_post(data->death_lock);
-			break ;
-		}
-		sem_post(data->death_lock);
+		// sem_wait(data->death_lock);
+		// // if (philo->philos_alive == false)
+		// // {
+		// // 	sem_post(data->death_lock);
+		// // 	exit(0);
+		// // }
+		// sem_post(data->death_lock);
 		if (handle_fork(data, philo, current) != 0)
-			break ;
-		safe_print(data, data->philos[current].id, MSG_SLEEP);
+			exit(0) ;
+		safe_print(data, current, MSG_SLEEP);
 		waiting(data, data->sleep_time);
 	}
 }
@@ -47,14 +49,14 @@ void	routine(t_data *data, size_t current)
 	if (data->nb_philo == 1)
 	{
 		only_one(data, data->philos);
-		return ;
+		exit(0) ;
 	}
-	if (data->pid[current] % 2 == 0)
+	if (current % 2 == 0)
 	{
-		safe_print(data, data->philos[current].id, MSG_THINK);
+		safe_print(data, current, MSG_THINK);
 		waiting(data, data->eat_time / 2);
 	}
 	routine_loop(data, data->philos, current);
-	return ;
+	exit(0) ;
 	
 }

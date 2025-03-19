@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:33:27 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 10:29:20 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 09:23:00 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	main(int ac, char **av)
 		clear_data(&data);
 		return (1);
 	}
+	// clear_data(&data);
 	return (0);
 }

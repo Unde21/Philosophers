@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 12:42:18 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 12:12:07 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ time_to_sleep, [nb_must_eat]\n"
 
 typedef struct s_philo
 {
-	size_t	id;
-	size_t	nb_meal;
-	long	time_last_meal;
+	size_t	*id;
+	size_t	*nb_meal;
+	long	*time_last_meal;
 	bool	philos_alive;
 	struct s_data *data;
 }	t_philo;
@@ -64,6 +64,7 @@ typedef struct s_data
 	sem_t	*forks;
 	sem_t	*print_lock;
 	sem_t	*start_lock;
+	sem_t	*sem_end;
 	t_philo	*philos;
 } t_data;
 
@@ -83,5 +84,7 @@ void	waiting(t_data *data, long time);
 int	wait_start(t_data *data);
 int	handle_fork(t_data *data, t_philo *philo, size_t current);
 void	safe_print(t_data *data, size_t id, char *str);
+void	supervisor(t_data *data);
+void	kill_all (t_data *data, size_t i);
 
 #endif
