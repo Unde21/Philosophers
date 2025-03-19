@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:33:58 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 12:22:31 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 12:42:27 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void eating(t_data *data, t_philo *philo, size_t current)
 	// sem_post(data->death_lock);
 	waiting(data, data->eat_time);
 	// printf("elapsed after waiting : %zu\n", get_current_time_ms() - philo->time_last_meal[current - 1]);
+	//TODO faire des thread supervisor pour chaque child 
 
 }
 
