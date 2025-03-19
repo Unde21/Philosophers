@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:59:38 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 12:22:33 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 13:50:33 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool check_death(t_data *data, t_philo *philo, size_t current)
 
 	current_time = get_current_time_ms();
 	sem_wait(data->death_lock);
-	if (current_time - philo->time_last_meal[current - 1] > data->death_time)
+	if (current_time - philo[current - 1].time_last_meal > data->death_time)
 	{
 		// printf("elapsed : %zu\n", philo[current - 1].time_last_meal);
 
@@ -45,7 +45,7 @@ static bool check_philo_ate_enough(t_data *data)
 		return (false);
 	while (i < data->nb_philo)
 	{
-		if (data->philos->nb_meal[i] < (size_t)data->nb_eat + 1)
+		if (data->philos[i].nb_meal < (size_t)data->nb_eat + 1)
 			return (false);
 		++i;
 	}
@@ -79,7 +79,6 @@ void	supervisor(t_data *data)
 			sem_post(data->death_lock);
 			++i;
 		}
-		// usleep(100000000);
 	}
 	return ;
 }

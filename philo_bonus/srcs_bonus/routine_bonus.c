@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:35:23 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 12:13:40 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 13:49:38 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static	void only_one(t_data *data, t_philo *philo)
 {
-	safe_print(data, philo->id[1], MSG_THINK);
+	safe_print(data, philo[0].id, MSG_THINK);
 	//TODO Secure with semaphore FORK ?
-	safe_print(data, philo->id[1], MSG_FORK);
+	safe_print(data, philo[0].id, MSG_FORK);
 	waiting(data, data->death_time);
 	//TODO close semaphore ?
 }

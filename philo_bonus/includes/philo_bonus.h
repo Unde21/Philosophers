@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 12:12:07 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 13:48:35 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ time_to_sleep, [nb_must_eat]\n"
 
 typedef struct s_philo
 {
-	size_t	*id;
-	size_t	*nb_meal;
-	long	*time_last_meal;
+	size_t	id;
+	size_t	nb_meal;
+	long	time_last_meal;
 	bool	philos_alive;
 	struct s_data *data;
 }	t_philo;

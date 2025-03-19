@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:13:25 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 12:19:54 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 13:48:55 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	clear_data(t_data *data)
 	sem_unlink("/print_lock");
 	if (data->pid != NULL)
 		free(data->pid);
-	if (data->philos->id != NULL)
-		free(data->philos->id);
-	if (data->philos->nb_meal != NULL)
-		free(data->philos->nb_meal);
-	if (data->philos->time_last_meal != NULL)
-		free(data->philos->time_last_meal);
+	// if (data->philos->id != NULL)
+	// 	free(data->philos->id);
+	// if (data->philos->nb_meal != NULL)
+	// 	free(data->philos->nb_meal);
+	// if (data->philos->time_last_meal != NULL)
+	// 	free(data->philos->time_last_meal);
 	if (data->philos != NULL)
 		free(data->philos);
 }
