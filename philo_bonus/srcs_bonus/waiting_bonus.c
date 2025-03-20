@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 12:32:49 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 14:39:23 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	waiting(t_data *data, long time, size_t current)
 	start = get_current_time_ms();
 	while (elapsed < time)
 	{
-		// (void)current;
-		supervisor(data, data->philos, current);
+		(void)current;
+		// supervisor(data, data->philos, current); // ici
 		sem_wait(data->death_lock);
 		// if (data->philos->philos_alive == false)
 		// {

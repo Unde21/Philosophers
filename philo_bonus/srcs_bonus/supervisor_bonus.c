@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:59:38 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 12:51:09 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 14:58:41 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	check_death(t_data *data, t_philo *philo, size_t current)
 	current_time = get_current_time_ms();
 	sem_wait(data->death_lock);
 	// printf("elasped : %ld\n", get_current_time_ms() - philo->time_last_meal);
-	if (current_time - philo[current].time_last_meal > data->death_time)
+	if (current_time - philo->time_last_meal > data->death_time)
 	{
 		philo->philos_alive = false;
 		sem_post(data->death_lock);
@@ -39,25 +39,54 @@ static bool	check_philo_ate_enough(t_data *data, t_philo *philo, size_t current)
 	size_t	i;
 
 	i = 0;
+	(void)current;
 	if (data->nb_eat == -1)
 		return (false);
-	if (philo[current].nb_meal < (size_t)data->nb_eat + 1)
+	if (philo->nb_meal < (size_t)data->nb_eat + 1)
 		return (false);
 	return (true);
 }
 
-void	supervisor(t_data *data, t_philo *philo, size_t current)
+// void	supervisor(t_data *data, t_philo *philo, size_t current)
+// {
+// 	if (check_death(data, philo, current) == true)
+// 	{
+// 		sem_post(data->sem_end);
+// 		clear_data(data);
+// 		exit(0);
+// 	}
+// 	else if (check_philo_ate_enough(data, philo, current) == true)
+// 	{
+// 		sem_post(data->sem_end);
+// 		clear_data(data);
+// 		exit(0);
+// 	}
+// }
+
+void	*supervisor(void *ptr)
 {
-	if (check_death(data, philo, current) == true)
+	t_philo	*philo;
+	t_data *data;
+	
+	philo = (t_philo *)ptr;
+	data = philo->data;
+	while (1)
 	{
-		sem_post(data->sem_end);
-		clear_data(data);
-		exit(0);
+		if (check_death(data, philo, philo->id) == true)
+		{
+			sem_post(data->sem_end);
+			clear_data(data);
+			// exit(0);
+			break ;
+		}
+		else if (check_philo_ate_enough(data, philo, philo->id) == true)
+		{
+			sem_post(data->sem_end);
+			clear_data(data);
+			// exit(0);
+			break ;
+		}
+		usleep(1000);
 	}
-	else if (check_philo_ate_enough(data, philo, current) == true)
-	{
-		sem_post(data->sem_end);
-		clear_data(data);
-		exit(0);
-	}
+	return (NULL);
 }

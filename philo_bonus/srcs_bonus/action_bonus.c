@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:33:58 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 12:57:27 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 14:50:33 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ int	handle_fork(t_data *data, t_philo *philo, size_t current)
 	// 	clear_data(data);
 	// 	exit(0);
     // }
-	supervisor(data, philo, current);
+
+	
+	// supervisor(data, philo, current); // ici
+	// printf("Philo %zu is trying to take a fork...\n", current + 1);
 	sem_wait(data->forks);
 	safe_print(data, current, MSG_FORK);
 	sem_wait(data->forks);
 	safe_print(data, current, MSG_FORK);
-	supervisor(data, philo, current);
+	// supervisor(data, philo, current); // ici
 	eating(data, philo, current);
 	sem_post(data->forks);
 	sem_post(data->forks);

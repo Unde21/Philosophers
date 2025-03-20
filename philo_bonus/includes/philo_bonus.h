@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 11:41:52 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 14:38:48 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ time_to_sleep, [nb_must_eat]\n"
 # define MSG_SLEEP "is sleeping"
 
 # include <stdbool.h>
+# include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <sys/types.h>
@@ -48,6 +49,8 @@ typedef struct s_philo
 	long	time_last_meal;
 	bool	philos_alive;
 	struct s_data *data;
+	pthread_t thread_routine;
+	pthread_t thread_supervisor;
 }	t_philo;
 
 
@@ -87,5 +90,6 @@ int	handle_fork(t_data *data, t_philo *philo, size_t current);
 void	safe_print(t_data *data, size_t id, char *str);
 void	kill_all (t_data *data);
 
-void	supervisor(t_data *data, t_philo *philo, size_t current);
+// void	supervisor(t_data *data, t_philo *philo, size_t current);
+void *supervisor(void *ptr);
 #endif
