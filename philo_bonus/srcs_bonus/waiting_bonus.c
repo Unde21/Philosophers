@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 10:23:03 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 12:32:49 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,37 @@ void	waiting(t_data *data, long time, size_t current)
 	start = get_current_time_ms();
 	while (elapsed < time)
 	{
+		// (void)current;
 		supervisor(data, data->philos, current);
 		sem_wait(data->death_lock);
-		if (data->philos->philos_alive == false)
-		{
-			sem_post(data->death_lock);
-			return ;
-		}
+		// if (data->philos->philos_alive == false)
+		// {
+		// 	sem_post(data->death_lock);
+		// 	return ;
+		// }
 		sem_post(data->death_lock);
-		usleep(250);
+		usleep(100);
 		elapsed = get_current_time_ms() - start;
 	}
 }
 
-int	wait_start(t_data *data)
-{
-	while (1)
-	{
-		sem_wait(data->start_lock);
-		if (data->start == ALL_PROCESS_CREATED)
-		{
-			sem_post(data->start_lock);
-			return (0);
-		}
-		if (data->start == ERR_PROCESS)
-		{
-			sem_post(data->start_lock);
-			return (-1);
-		}
-		sem_post(data->start_lock);
-		usleep(500);
-	}
-	return (0);
-}
+// int	wait_start(t_data *data)
+// {
+// 	while (1)
+// 	{
+// 		sem_wait(data->start_lock);
+// 		if (data->start == ALL_PROCESS_CREATED)
+// 		{
+// 			sem_post(data->start_lock);
+// 			return (0);
+// 		}
+// 		if (data->start == ERR_PROCESS)
+// 		{
+// 			sem_post(data->start_lock);
+// 			return (-1);
+// 		}
+// 		sem_post(data->start_lock);
+// 		usleep(500);
+// 	}
+// 	return (0);
+// }

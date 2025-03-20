@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 10:26:15 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 11:41:06 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ time_to_sleep, [nb_must_eat]\n"
 # define ERR_MALLOC "malloc failed\n"
 # define ERR_ARG "invalid parameters\n"
 # define ERR_NB_PHILO "invalid numbers of Philosophers\n"
+# define ERR_NB_EAT "invalid number eat\n"
 # define TOO_MANY_PHILO "Too many philosophers\n"
 # define ERR_EAT "eat_time must be greater than 60ms\n"
 # define ERR_SLEEP "sleep_time must be greater than 60ms\n"

@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:33:27 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 10:37:02 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 10:58:33 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av)
 {
 	t_data	data;
-	
+
 	if (check_params(&data, ac, av) != 0)
 		return (1);
 	if (init_child(&data) != 0)
