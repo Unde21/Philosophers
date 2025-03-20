@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:11:01 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 11:41:23 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 09:16:34 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	safe_print(t_data *data, size_t id, char *str)
 	sem_post(data->death_lock);
 	current_time = get_current_time_ms() - data->start_time;
 	sem_wait(data->print_lock);
-	printf("%ld %lu %s\n", current_time, id, str);
+	printf("%ld %lu %s\n", current_time, id + 1, str);
 	sem_post(data->print_lock);
 }
 

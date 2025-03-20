@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 13:48:35 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 10:23:43 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ bool	init_semaphores(t_data *data);
 long	get_current_time_ms(void);
 bool	check_value(t_data *data);
 void	routine(t_data *data, size_t current);
-void	waiting(t_data *data, long time);
+void	waiting(t_data *data, long time, size_t current);
 int	wait_start(t_data *data);
 int	handle_fork(t_data *data, t_philo *philo, size_t current);
 void	safe_print(t_data *data, size_t id, char *str);
-void	supervisor(t_data *data);
-void	kill_all (t_data *data, size_t i);
+void	kill_all (t_data *data);
 
+void	supervisor(t_data *data, t_philo *philo, size_t current);
 #endif

@@ -6,13 +6,13 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 13:20:55 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 10:23:03 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	waiting(t_data *data, long time)
+void	waiting(t_data *data, long time, size_t current)
 {
 	long	start;
 	long	elapsed;
@@ -21,6 +21,7 @@ void	waiting(t_data *data, long time)
 	start = get_current_time_ms();
 	while (elapsed < time)
 	{
+		supervisor(data, data->philos, current);
 		sem_wait(data->death_lock);
 		if (data->philos->philos_alive == false)
 		{

@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:04 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 13:48:08 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 10:36:40 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <fcntl.h> 
 #include <stdlib.h>
 
-//TODO remonter d erreur et free tout sa en cas derreur
 static bool	init_struct_philos(t_data *data)
 {
 	size_t	i;
@@ -26,32 +25,6 @@ static bool	init_struct_philos(t_data *data)
 		ft_putstr_fd(ERR_MALLOC, 2);
 		return (false);
 	}
-	// data->philos->id = malloc(sizeof(size_t) * data->nb_philo);
-	// if (data->philos->id == NULL)
-	// {
-	// 	ft_putstr_fd(ERR_MALLOC, 2);
-	// 	return (false);
-	// }
-	// data->philos->nb_meal = malloc(sizeof(size_t) * data->nb_philo);
-	// if (data->philos->nb_meal == NULL)
-	// {
-	// 	ft_putstr_fd(ERR_MALLOC, 2);
-	// 	return (false);
-	// }
-	// data->philos->time_last_meal = malloc(sizeof(long) * data->nb_philo);
-	// if (data->philos->time_last_meal == NULL)
-	// {
-	// 	ft_putstr_fd(ERR_MALLOC, 2);
-	// 	return (false);
-	// }
-	// while (i < data->nb_philo)
-	// {
-	// 	data->philos->id[i] = i;
-	// 	data->philos->nb_meal[i] = 0;
-	// 	data->philos->time_last_meal[i] = data->start_time;
-	// 	data->philos[i].data = data;
-	// 	++i;
-	// }
 	while (i < data->nb_philo)
 	{
 		data->philos[i].id = i;
