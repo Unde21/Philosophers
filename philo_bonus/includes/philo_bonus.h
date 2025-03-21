@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 14:38:48 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 08:37:52 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_data
 	sem_t	*print_lock;
 	sem_t	*start_lock;
 	sem_t	*sem_end;
+	sem_t	*sem_start;
 	t_philo	*philos;
 } t_data;
 

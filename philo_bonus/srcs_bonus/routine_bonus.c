@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:35:23 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 14:58:01 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 10:19:55 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,16 @@ static void	routine_loop(t_data *data, t_philo *philo, size_t current)
 // }
 void	routine(t_data *data, size_t current)
 {
+	// if (wait_start(data) != 0)
+	// 	return ;
+	// data->start_time = get_current_time_ms();
+	// data->philos->time_last_meal = data->start_time;
+	while (get_current_time_ms() < data->start_time)
+		usleep(100);
+	// printf("Process %zu, start_time: %ld, current_time: %ld\n",
+    //    current, data->start_time, get_current_time_ms());
+	// exit(0);
+	data->philos[current].time_last_meal = data->start_time;
 	if (data->nb_philo == 1)
 	{
 		only_one(data, data->philos);
@@ -84,6 +94,10 @@ void	routine(t_data *data, size_t current)
 		safe_print(data, current, MSG_THINK);
 		waiting(data, data->eat_time / 2, current);
 	}
+	// else
+	// {
+	// 	safe_print(data, current, MSG_THINK);
+	// }
 	//TODO create 2 thread: one for routine and one for supervisor
 	// if (pthread_create(&data->philos->thread_routine, NULL, routine_loop, &data->philos) != 0)
 	// {

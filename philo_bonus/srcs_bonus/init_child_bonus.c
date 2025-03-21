@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:32:35 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 11:08:50 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 10:16:24 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	child_creation_loop(t_data *data)
 	size_t	i;
 
 	i = 0;
+	data->start_time = get_current_time_ms() + 1000;
 	while (i < data->nb_philo)
 	{
 		data->pid[i] = fork();
@@ -46,11 +47,29 @@ static int	child_creation_loop(t_data *data)
 		}
 		if (data->pid[i] == 0)
 		{
+			sem_post(data->start_lock);
+			sem_wait(data->sem_start);
 			routine(data, i);
 			exit(0);
 		}
 		++i;
 	}
+	// sem_post(data->sem_start);
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		sem_wait(data->start_lock);
+		// usleep(1000);
+		++i;
+	}
+	i = 0;
+	// data->start_time = get_current_time_ms();
+	while (i < data->nb_philo)
+	{
+		sem_post(data->sem_start);
+		++i;
+	}
+	data->start = ALL_PROCESS_CREATED;
 	return (0);
 }
 
