@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 13:05:59 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 13:57:53 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ void	waiting(t_data *data, long time, size_t current)
 	{
 		(void)current;
 		(void)data;
-		// supervisor(data, data->philos, current); // ici
-		// sem_wait(data->death_lock);
-		// if (data->philos->philos_alive == false)
-		// {
-		// 	sem_post(data->death_lock);
-		// 	return ;
-		// }
-		// sem_post(data->death_lock);
 		usleep(100);
 		elapsed = get_current_time_ms() - start;
 	}
@@ -64,4 +56,3 @@ void	waiting(t_data *data, long time, size_t current)
 // 	}
 // 	return (0);
 // }
-

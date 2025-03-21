@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:32:35 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 13:34:19 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 14:06:49 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	child_creation_loop(t_data *data)
 			// sem_post(data->start_lock);
 			// sem_wait(data->sem_start);
 			routine(data, i);
-			exit(0);
+			// exit(0);
 		}
 		++i;
 	}

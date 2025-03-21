@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:13:25 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 13:51:09 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 14:04:50 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	clear_data(t_data *data)
 {
 	sem_close(data->forks);
 	sem_close(data->print_lock);
-	// sem_close(data->death_lock);
+	sem_close(data->death_lock);
+	sem_close(data->eating_limit);
 	// sem_close(data->sem_end);
 	// sem_close(data->sem_start);
 	// sem_close(data->start_lock);

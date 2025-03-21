@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:35:23 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 13:49:49 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 14:23:16 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	routine(t_data *data, size_t current)
 	if (data->nb_philo == 1)
 	{
 		only_one(data, data->philos);
+		clear_data(data);
 		exit(0) ;
 	}
 	if (current % 2 == 0)
@@ -47,13 +48,16 @@ void	routine(t_data *data, size_t current)
 		safe_print(data, current, MSG_THINK);
 		waiting(data, data->eat_time / 2, current);
 	}
-	if (pthread_create(&data->philos[current].thread_supervisor, NULL, supervisor, &data->philos[current]) != 0)
+	//TODO leak : pthread ??
+	if (pthread_create(&data->philos->thread_supervisor, NULL, supervisor, &data->philos[current]) != 0)
 	{
 		//TODO handle error
 		// sem_post(data->sem_end);
+		clear_data(data);
 		exit(1);
 	}
 	routine_loop(data, data->philos, current);
 	pthread_join(data->philos->thread_supervisor, NULL);
+	clear_data(data);
 	exit(0) ;
 }
