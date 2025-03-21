@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:16 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 09:36:46 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 12:08:11 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ void	waiting(t_data *data, long time, size_t current)
 	while (elapsed < time)
 	{
 		(void)current;
+		(void)data;
 		// supervisor(data, data->philos, current); // ici
-		sem_wait(data->death_lock);
+		// sem_wait(data->death_lock);
 		// if (data->philos->philos_alive == false)
 		// {
 		// 	sem_post(data->death_lock);
 		// 	return ;
 		// }
-		sem_post(data->death_lock);
+		// sem_post(data->death_lock);
 		usleep(100);
 		elapsed = get_current_time_ms() - start;
 	}

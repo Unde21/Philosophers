@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:33:58 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 14:50:33 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 11:32:16 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static void	eating(t_data *data, t_philo *philo, size_t current)
 {
+	sem_wait(data->death_lock);
 	philo[current].time_last_meal = get_current_time_ms();
+	sem_post(data->death_lock);
 	safe_print(data, current, MSG_EATING);
 	++philo[current].nb_meal;
 	waiting(data, data->eat_time, current);

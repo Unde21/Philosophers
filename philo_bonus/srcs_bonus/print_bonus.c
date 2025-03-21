@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:11:01 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 12:59:17 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 10:57:59 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	safe_print(t_data *data, size_t id, char *str)
 
 	sem_wait(data->death_lock);
 	// sem_wait(data->sem_end);
-	if (data->philos->philos_alive == false)
-	{
-		sem_post(data->death_lock);
-		exit(0) ;
-	}
+	// if (data->philos->philos_alive == false)
+	// {
+	// 	sem_post(data->death_lock);
+	// 	exit(0) ;
+	// }
 	sem_post(data->death_lock);
 	current_time = get_current_time_ms() - data->start_time;
 	sem_wait(data->print_lock);

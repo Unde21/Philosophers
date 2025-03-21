@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:04 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 09:51:13 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 11:54:19 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ static bool	init_struct_philos(t_data *data)
 bool	init_semaphores(t_data *data)
 {
 	//TODO quitter proprement le programme pour retirer sa 
-	sem_close(data->forks);
-	sem_close(data->print_lock);
-	sem_close(data->death_lock);
-	sem_close(data->sem_end);
-	sem_close(data->sem_start);
-	sem_close(data->start_lock);
+	// sem_close(data->forks);
+	// sem_close(data->print_lock);
+	// sem_close(data->death_lock);
+	// sem_close(data->sem_end);
+	// sem_close(data->sem_start);
+	// sem_close(data->start_lock);
 	sem_unlink("/start_lock");
 	sem_unlink("/sem_start");
 	sem_unlink("/sem_end");
@@ -53,7 +53,7 @@ bool	init_semaphores(t_data *data)
 	sem_unlink("/forks");
 	sem_unlink("/print_lock");
 	//TODO define le path des semaphores O_EXCL ????  // close tout les sem en cas error
-	data->sem_end = sem_open("/sem_end", O_CREAT | O_EXCL, 0644, 0);
+	data->sem_end = sem_open("/sem_end", O_CREAT, 0644, 0);
 	if (data->sem_end == SEM_FAILED)
 	{
 		ft_putstr_fd(ERR_SEM, 2);

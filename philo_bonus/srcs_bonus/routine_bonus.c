@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:35:23 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 10:19:55 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 12:07:16 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ static void	routine_loop(t_data *data, t_philo *philo, size_t current)
 	// }
 	while (1)
 	{
+		//TODO return always 0
 		if (handle_fork(data, philo, current) != 0)
-			exit(0) ;
+		{
+			sem_post(data->sem_end);
+			return ;
+		}
 		// printf("current : %zu\n", current + 1);
 		safe_print(data, current, MSG_SLEEP);
 		waiting(data, data->sleep_time, current);
@@ -79,10 +83,11 @@ void	routine(t_data *data, size_t current)
 	// data->start_time = get_current_time_ms();
 	// data->philos->time_last_meal = data->start_time;
 	while (get_current_time_ms() < data->start_time)
-		usleep(100);
+		usleep(50);
 	// printf("Process %zu, start_time: %ld, current_time: %ld\n",
     //    current, data->start_time, get_current_time_ms());
 	// exit(0);
+	// usleep(1000);
 	data->philos[current].time_last_meal = data->start_time;
 	if (data->nb_philo == 1)
 	{
@@ -94,23 +99,14 @@ void	routine(t_data *data, size_t current)
 		safe_print(data, current, MSG_THINK);
 		waiting(data, data->eat_time / 2, current);
 	}
-	// else
-	// {
-	// 	safe_print(data, current, MSG_THINK);
-	// }
-	//TODO create 2 thread: one for routine and one for supervisor
-	// if (pthread_create(&data->philos->thread_routine, NULL, routine_loop, &data->philos) != 0)
-	// {
-	// 	//TODO handle error
-	// 	exit(1);
-	// }
 	if (pthread_create(&data->philos[current].thread_supervisor, NULL, supervisor, &data->philos[current]) != 0)
 	{
 		//TODO handle error
+		sem_post(data->sem_end);
 		exit(1);
 	}
 	routine_loop(data, data->philos, current);
-	// pthread_join(data->philos->thread_routine, NULL);
 	pthread_join(data->philos->thread_supervisor, NULL);
+	// sem_post(data->sem_end);
 	exit(0) ;
 }
