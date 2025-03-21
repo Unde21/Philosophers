@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:04 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 11:54:19 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 13:51:26 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,55 +46,64 @@ bool	init_semaphores(t_data *data)
 	// sem_close(data->sem_end);
 	// sem_close(data->sem_start);
 	// sem_close(data->start_lock);
-	sem_unlink("/start_lock");
-	sem_unlink("/sem_start");
-	sem_unlink("/sem_end");
+	// sem_unlink("/start_lock");
+	// sem_unlink("/sem_start");
+	// // sem_unlink("/sem_end");
 	sem_unlink("/death_lock");
+	sem_unlink("/eating_limit");
 	sem_unlink("/forks");
 	sem_unlink("/print_lock");
 	//TODO define le path des semaphores O_EXCL ????  // close tout les sem en cas error
-	data->sem_end = sem_open("/sem_end", O_CREAT, 0644, 0);
-	if (data->sem_end == SEM_FAILED)
-	{
-		ft_putstr_fd(ERR_SEM, 2);
-		return (false);
-	}
-	data->start_lock = sem_open("/start_lock", O_CREAT | O_EXCL, 0644, 0);
-	if (data->start_lock == SEM_FAILED)
-	{
-		ft_putstr_fd(ERR_SEM, 2);
-		return (false);
-	}
-	data->sem_start = sem_open("/sem_start", O_CREAT | O_EXCL, 0644, 0);
-	if (data->sem_start == SEM_FAILED)
-	{
-		ft_putstr_fd(ERR_SEM, 2);
-		return (false);
-	}
+	// data->sem_end = sem_open("/sem_end", O_CREAT, 0644, 0);
+	// if (data->sem_end == SEM_FAILED)
+	// {
+	// 	ft_putstr_fd(ERR_SEM, 2);
+	// 	return (false);
+	// }
+	// data->start_lock = sem_open("/start_lock", O_CREAT | O_EXCL, 0644, 0);
+	// if (data->start_lock == SEM_FAILED)
+	// {
+	// 	ft_putstr_fd(ERR_SEM, 2);
+	// 	return (false);
+	// }
+	// data->sem_start = sem_open("/sem_start", O_CREAT | O_EXCL, 0644, 0);
+	// if (data->sem_start == SEM_FAILED)
+	// {
+	// 	ft_putstr_fd(ERR_SEM, 2);
+	// 	return (false);
+	// }
 	data->death_lock = sem_open("/death_lock", O_CREAT, 0644, 1);
 	if (data->death_lock == SEM_FAILED)
 	{
 		ft_putstr_fd(ERR_SEM, 2);
 		sem_close(data->death_lock);
-		sem_unlink("/sem_end");
+		// sem_unlink("/sem_end");
+		return (false);
+	}
+	data->eating_limit = sem_open("/eating_limit", O_CREAT, 0644, data->nb_philo / 2);
+	if (data->eating_limit == SEM_FAILED)
+	{
+		ft_putstr_fd(ERR_SEM, 2);
+		sem_close(data->eating_limit);
+		// sem_unlink("/sem_end");
 		return (false);
 	}
 	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_philo);
 	if (data->forks == SEM_FAILED)
 	{
 		ft_putstr_fd(ERR_SEM, 2);
-		sem_close(data->death_lock);
-		sem_unlink("/death_lock");
+		// sem_close(data->death_lock);
+		// sem_unlink("/death_lock");
 		return (false);
 	}
 	data->print_lock = sem_open("/print_lock", O_CREAT, 0644, 1);
 	if (data->print_lock == SEM_FAILED)
 	{
 		ft_putstr_fd(ERR_SEM, 2);
-		sem_close(data->death_lock);
+		// sem_close(data->death_lock);
 		sem_close(data->forks);
 		sem_unlink("/forks");
-		sem_unlink("/death_lock");
+		// sem_unlink("/death_lock");
 		return (false);
 	}
 	init_struct_philos(data);

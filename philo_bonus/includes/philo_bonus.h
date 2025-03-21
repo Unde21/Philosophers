@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 08:37:52 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 13:50:23 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ typedef struct s_data
 	sem_t	*death_lock;
 	sem_t	*forks;
 	sem_t	*print_lock;
-	sem_t	*start_lock;
-	sem_t	*sem_end;
-	sem_t	*sem_start;
+	// sem_t	*start_lock;
+	// sem_t	*sem_end;
+	// sem_t	*sem_start;
+	sem_t	*eating_limit;
 	t_philo	*philos;
 } t_data;
 
@@ -87,10 +88,8 @@ bool	check_value(t_data *data);
 void	routine(t_data *data, size_t current);
 void	waiting(t_data *data, long time, size_t current);
 int	wait_start(t_data *data);
-int	handle_fork(t_data *data, t_philo *philo, size_t current);
+void	handle_fork(t_data *data, t_philo *philo, size_t current);
 void	safe_print(t_data *data, size_t id, char *str);
 void	kill_all (t_data *data);
-
-// void	supervisor(t_data *data, t_philo *philo, size_t current);
 void *supervisor(void *ptr);
 #endif

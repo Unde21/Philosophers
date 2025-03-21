@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:13:25 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 10:44:12 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 13:51:09 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@ void	clear_data(t_data *data)
 {
 	sem_close(data->forks);
 	sem_close(data->print_lock);
-	sem_close(data->death_lock);
-	sem_close(data->sem_end);
-	sem_close(data->sem_start);
-	sem_close(data->start_lock);
-	sem_unlink("/start_lock");
-	sem_unlink("/sem_start");
-	sem_unlink("/sem_end");
+	// sem_close(data->death_lock);
+	// sem_close(data->sem_end);
+	// sem_close(data->sem_start);
+	// sem_close(data->start_lock);
+	// sem_unlink("/start_lock");
+	// sem_unlink("/sem_start");
+	// sem_unlink("/sem_end");
 	sem_unlink("/death_lock");
 	sem_unlink("/forks");
 	sem_unlink("/print_lock");
+	sem_unlink("/eating_limit");
 	if (data->pid != NULL)
 		free(data->pid);
 	if (data->philos != NULL)

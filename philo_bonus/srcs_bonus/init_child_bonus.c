@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:32:35 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 12:06:04 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 13:34:19 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	child_creation_loop(t_data *data)
 	size_t	i;
 
 	i = 0;
-	data->start_time = get_current_time_ms() + 250;
+	data->start_time = get_current_time_ms() ;
 	while (i < data->nb_philo)
 	{
 		data->pid[i] = fork();
@@ -76,12 +76,16 @@ static int	child_creation_loop(t_data *data)
 int	init_child(t_data *data)
 {
 	size_t	i;
-	// int	status;
+	int	status;
 	i = 0;
 	if (child_creation_loop(data) != 0)
 		return (-1);
-	sem_wait(data->sem_end);
-	// while(waitpid(-1, &status, 0) > 0);
+	// sem_wait(data->sem_end);
+	while(waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+			break ;
+	}
 	kill_all(data);
 	kill(data->pid[0], SIGKILL);
 	clear_data(data);

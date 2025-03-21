@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:59:38 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/21 12:08:56 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/21 13:39:37 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ bool	check_death(t_data *data, t_philo *philo, size_t current)
 	sem_wait(data->death_lock);
 	if (current_time - philo->time_last_meal > data->death_time)
 	{
-		philo->philos_alive = false;
+		// philo->philos_alive = false;
+		sem_post(data->death_lock);
 		sem_wait(data->print_lock);
 		printf("%ld %lu died\n", current_time - data->start_time, current + 1);
-		sem_post(data->print_lock);
+		// sem_post(data->print_lock);
 		return (true);
 	}
 	sem_post(data->death_lock);
@@ -45,22 +46,6 @@ static bool	check_philo_ate_enough(t_data *data, t_philo *philo, size_t current)
 	return (true);
 }
 
-// void	supervisor(t_data *data, t_philo *philo, size_t current)
-// {
-// 	if (check_death(data, philo, current) == true)
-// 	{
-// 		sem_post(data->sem_end);
-// 		clear_data(data);
-// 		exit(0);
-// 	}
-// 	else if (check_philo_ate_enough(data, philo, current) == true)
-// 	{
-// 		sem_post(data->sem_end);
-// 		clear_data(data);
-// 		exit(0);
-// 	}
-// }
-
 void	*supervisor(void *ptr)
 {
 	t_philo	*philo;
@@ -71,21 +56,9 @@ void	*supervisor(void *ptr)
 	while (1)
 	{
 		if (check_death(data, philo, philo->id) == true)
-		{
-			sem_post(data->sem_end);
-			// clear_data(data);
-			// kill_all(data);
-
 			exit(0);
-			break ;
-		}
 		else if (check_philo_ate_enough(data, philo, philo->id) == true)
-		{
-			sem_post(data->sem_end);
-			// // clear_data(data);
-			// exit(0);
-			break ;
-		}
+			exit(0);
 		usleep(1000);
 	}
 	return (NULL);
