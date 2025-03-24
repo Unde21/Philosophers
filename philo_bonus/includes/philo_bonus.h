@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/22 09:35:05 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/24 12:32:35 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_philo
 	long	time_last_meal;
 	bool	philos_alive;
 	struct s_data *data;
-	pthread_t thread_routine;
 	pthread_t thread_supervisor;
 }	t_philo;
 
@@ -64,13 +63,9 @@ typedef struct s_data
 	long	start_time;
 	int		nb_eat;
 	int		start;
-	sem_t	*death_lock;
 	sem_t	*forks;
 	sem_t	*print_lock;
-	// sem_t	*start_lock;
 	sem_t	*sem_end;
-	// sem_t	*sem_start;
-	sem_t	*eating_limit;
 	t_philo	*philos;
 } t_data;
 
@@ -86,10 +81,11 @@ bool	init_semaphores(t_data *data);
 long	get_current_time_ms(void);
 bool	check_value(t_data *data);
 void	routine(t_data *data, size_t current);
-void	waiting(t_data *data, long time, size_t current);
-int	wait_start(t_data *data);
+void	waiting(long time);
 void	handle_fork(t_data *data, t_philo *philo, size_t current);
 void	safe_print(t_data *data, size_t id, char *str);
 void	kill_all (t_data *data);
 void *supervisor(void *ptr);
+void	clear_semaphores(t_data *data);
+
 #endif

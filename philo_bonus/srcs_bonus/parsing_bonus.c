@@ -6,21 +6,21 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:38:41 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/20 11:42:55 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/24 09:13:52 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 #include <unistd.h>
 
-static bool is_integer(char *s)
+static bool	is_integer(char *s)
 {
 	size_t	i;
 	int		check_error;
 
 	check_error = 0;
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (s[i] < '0' || s[i] > '9')
 			return (false);
@@ -81,7 +81,7 @@ int	check_params(t_data *data, int ac, char **av)
 		ft_putstr_fd(ERR_NB_EAT, 2);
 		return (-1);
 	}
-	if (init_data(data, ac, av) == false || init_semaphores(data) == false)
+	if (init_data(data, ac, av) == false)
 		return (-1);
 	return (0);
 }

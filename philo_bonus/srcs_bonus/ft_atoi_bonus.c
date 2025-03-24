@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:50:36 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/18 08:51:12 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/24 08:53:32 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ static int	is_overflow(unsigned long n, const char *str, size_t i, int s)
 	}
 	return (1);
 }
-
