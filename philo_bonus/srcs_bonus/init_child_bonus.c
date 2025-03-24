@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:32:35 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/24 12:27:54 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/24 13:30:27 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	init_child(t_data *data)
 {
 	size_t	i;
 
-	int	status;
+	// int	status;
 	i = 0;
 	if (init_semaphores(data) == false)
 		return (-1);
@@ -69,12 +69,12 @@ int	init_child(t_data *data)
 	// 	return (-1);
 	if (child_creation_loop(data) != 0)
 		return (-1);
-	// sem_wait(data->sem_end);
-	while(waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-			break ;
-	}
+	sem_wait(data->sem_end);
+	// while(waitpid(-1, &status, 0) > 0)
+	// {
+	// 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+	// 		break ;
+	// }
 	// waitpid(-1, NULL, 0);
 	// waitpid(-1, NULL, 0);
 	clear_semaphores(data);
