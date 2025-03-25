@@ -14,7 +14,7 @@ SRCS := srcs/main.c \
 	
 HEADER := includes/philo.h
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g3
+CFLAGS := -Wall -Wextra -Werror
 CPPFFLAGS := -MMD -MP
 
 RM := rm -rf

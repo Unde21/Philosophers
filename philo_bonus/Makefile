@@ -15,7 +15,7 @@ SRCS := srcs_bonus/main_bonus.c \
 	
 HEADER := includes/philo_bonus.h
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g3
+CFLAGS := -Wall -Wextra -Werror
 CPPFFLAGS := -MMD -MP
 
 RM := rm -rf

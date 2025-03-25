@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:04 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/24 11:44:25 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/25 10:05:42 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ static bool	init_struct_philos(t_data *data)
 
 bool	init_semaphores(t_data *data)
 {
-	sem_unlink("/sem_end");
-	sem_unlink("/forks");
-	sem_unlink("/print_lock");
-	data->sem_end = sem_open("/sem_end", O_CREAT, 0644, 0);
+	sem_unlink(SEM_END);
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_PRINT);
+	data->sem_end = sem_open(SEM_END, O_CREAT, 0644, 0);
 	if (data->sem_end == SEM_FAILED)
 		return (false);
-	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_philo);
+	data->forks = sem_open(SEM_FORKS, O_CREAT, 0644, data->nb_philo);
 	if (data->forks == SEM_FAILED)
 		return (false);
-	data->print_lock = sem_open("/print_lock", O_CREAT, 0644, 1);
+	data->print_lock = sem_open(SEM_PRINT, O_CREAT, 0644, 1);
 	if (data->print_lock == SEM_FAILED)
 		return (false);
 	return (true);

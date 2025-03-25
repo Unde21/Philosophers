@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:32:35 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/24 13:30:27 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/25 09:16:36 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static int	child_creation_loop(t_data *data)
 			data->nb_philo = i;
 			kill_all(data);
 			sem_post(data->sem_end);
-			// clear_semaphores(data);
-			// clear_data(data);
 			return (-1);
 		}
 		if (data->pid[i] == 0)
@@ -59,24 +57,12 @@ int	init_child(t_data *data)
 {
 	size_t	i;
 
-	// int	status;
 	i = 0;
 	if (init_semaphores(data) == false)
 		return (-1);
-	// sem_post(data->sem_end);
-	// sem_wait(data->sem_end);
-	// if (child_creation_loop(data) != 0)
-	// 	return (-1);
 	if (child_creation_loop(data) != 0)
 		return (-1);
 	sem_wait(data->sem_end);
-	// while(waitpid(-1, &status, 0) > 0)
-	// {
-	// 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-	// 		break ;
-	// }
-	// waitpid(-1, NULL, 0);
-	// waitpid(-1, NULL, 0);
 	clear_semaphores(data);
 	kill_all(data);
 	clear_data(data);

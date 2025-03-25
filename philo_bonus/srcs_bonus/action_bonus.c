@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:33:58 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/24 09:58:27 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/25 10:01:07 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	eating(t_data *data, t_philo *philo, size_t current)
 
 void	handle_fork(t_data *data, t_philo *philo, size_t current)
 {
+	if (data->nb_philo % 2 != 0 && philo->time_last_meal > data->death_time / 2)
+		waiting(data->eat_time);
 	sem_wait(data->forks);
 	safe_print(data, current, MSG_FORK);
 	sem_wait(data->forks);

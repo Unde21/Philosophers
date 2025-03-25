@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:59:38 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/24 13:17:55 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/25 10:02:10 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ bool	check_death(t_data *data, t_philo *philo, size_t current)
 	if (current_time - philo->time_last_meal > data->death_time)
 	{
 		printf("%ld %lu died\n", current_time - data->start_time, current + 1);
-		// sem_post(data->print_lock);
 		return (true);
 	}
 	sem_post(data->print_lock);
@@ -52,8 +51,8 @@ static bool	check_philo_ate_enough(t_data *data, t_philo *philo)
 void	*supervisor(void *ptr)
 {
 	t_philo	*philo;
-	t_data *data;
-	
+	t_data	*data;
+
 	philo = (t_philo *)ptr;
 	data = philo->data;
 	while (1)
@@ -61,18 +60,12 @@ void	*supervisor(void *ptr)
 		if (check_death(data, philo, philo->id) == true)
 		{
 			sem_post(data->sem_end);
-			// clear_semaphores(data);
-		// sem_post(data->print_lock);
-			// free(data->philos[philo->id].thread_supervisor);
 			clear_data(data);
 			exit(0);
-			// return (NULL);
 		}
 		else if (check_philo_ate_enough(data, philo) == true)
 		{
 			sem_post(data->sem_end);
-			// clear_semaphores(data);
-			// free(data->philos[philo->id].thread_supervisor);
 			clear_data(data);
 			exit(0);
 		}
