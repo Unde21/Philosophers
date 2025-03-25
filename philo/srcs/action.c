@@ -44,11 +44,36 @@ static int	take_right_fork(t_data *data, t_philo *philo,
 	return (0);
 }
 
+static void	fork_for_odd_nb_philo(t_data *data, t_philo *philo,
+		pthread_mutex_t **first_fork, pthread_mutex_t **second_fork)
+{
+	if (philo->id % 2 != 0)
+	{
+		if (philo->time_last_meal - data->death_time > data->eat_time)
+		{
+			waiting(data, data->eat_time);
+		}
+		*first_fork = philo->right_fork;
+		*second_fork = philo->left_fork;
+	}
+	else
+	{
+		if (philo->time_last_meal - data->death_time > data->eat_time)
+		{
+			waiting(data, data->eat_time);
+		}
+		*first_fork = philo->left_fork;
+		*second_fork = philo->right_fork;
+	}
+}
+
 int	handle_fork(t_data *data, t_philo *philo)
 {
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
 
+	first_fork = NULL;
+	second_fork = NULL;
 	if (data->nb_philo % 2 == 0)
 	{
 		if (philo->id % 2 == 0)
@@ -63,10 +88,7 @@ int	handle_fork(t_data *data, t_philo *philo)
 		}
 	}
 	else
-	{
-		first_fork = philo->left_fork;
-		second_fork = philo->right_fork;
-	}
+		fork_for_odd_nb_philo(data, philo, &first_fork, &second_fork);
 	if (take_right_fork(data, philo, first_fork, second_fork) != 0)
 		return (-1);
 	return (0);
