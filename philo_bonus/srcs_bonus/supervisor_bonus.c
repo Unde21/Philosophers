@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:59:38 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/25 10:02:10 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 15:20:49 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,25 @@ static bool	check_philo_ate_enough(t_data *data, t_philo *philo)
 		return (false);
 	}
 	sem_wait(data->print_lock);
-	if (philo->nb_meal < (size_t)data->nb_eat + 1)
+	if (philo->nb_meal < (size_t)data->nb_eat)
 	{
 		sem_post(data->print_lock);
 		return (false);
 	}
 	sem_post(data->print_lock);
 	return (true);
+}
+
+static void	make_sem_end_max(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		sem_post(data->sem_end);
+		++i;
+	}
 }
 
 void	*supervisor(void *ptr)
@@ -59,15 +71,14 @@ void	*supervisor(void *ptr)
 	{
 		if (check_death(data, philo, philo->id) == true)
 		{
-			sem_post(data->sem_end);
+			make_sem_end_max(data);
 			clear_data(data);
 			exit(0);
 		}
 		else if (check_philo_ate_enough(data, philo) == true)
 		{
 			sem_post(data->sem_end);
-			clear_data(data);
-			exit(0);
+			break ;
 		}
 		usleep(1000);
 	}

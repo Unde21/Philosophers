@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:59 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/19 13:32:28 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/26 15:05:43 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool	check_philo_ate_enough(t_data *data)
 		return (false);
 	while (i < data->nb_philo)
 	{
-		if (data->philos[i].nb_meal < (size_t)data->nb_eat + 1)
+		if (data->philos[i].nb_meal < (size_t)data->nb_eat)
 			return (false);
 		++i;
 	}
