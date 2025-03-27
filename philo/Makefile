@@ -55,7 +55,7 @@ $(NAME): $(OBJS) Makefile
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 	@mkdir -p $(dir $@)
-	@echo "$(BUILD)$(GREEN)$(BOLD) [Compiling...]$(END)"
+	@echo "$(BUILD)$(GREEN)$(BOLD) [Compiling]$(END) $<"
 	@$(CC) $(CFLAGS) $(INCS) $(CPPFFLAGS) -c -o $@ $<
 
 
