@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:56:18 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/14 00:30:59 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/31 10:51:40 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	free_data(t_data *data)
 		free(data->m_forks);
 	if (data->philos != NULL)
 		free(data->philos);
+	if (data->forks_status != NULL)
+		free(data->forks_status);
 }
 
 long	get_current_time_ms(void)

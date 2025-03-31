@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:19:19 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/14 00:32:04 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/03/31 10:29:14 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,16 @@ static bool	init_mutex(t_data *data)
 
 static bool	init_forks(t_data *data)
 {
-	size_t	i;
+	int	i;
 
-	i = 0;
-	while (i < data->nb_philo)
+	i = -1;
+	data->forks_status = malloc(sizeof(int) * data->nb_philo);
+	if (data->forks_status == NULL)
+	{
+		ft_putstr_fd(ERR_MALLOC, 2);
+		return (false);
+	}
+	while (++i < (int)data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->m_forks[i], NULL) != 0)
 		{
@@ -59,7 +65,7 @@ static bool	init_forks(t_data *data)
 			}
 			return (false);
 		}
-		++i;
+		data->forks_status[i] = AVAILABLE;
 	}
 	data->m_fork_init = true;
 	return (true);
@@ -78,6 +84,8 @@ static void	init_struct_philos(t_data *data)
 		data->philos[i].left_fork = &data->m_forks[i];
 		data->philos[i].right_fork = &data->m_forks[(i + 1) % data->nb_philo];
 		data->philos[i].data = data;
+		data->philos[i].first_fork_index = 0;
+		data->philos[i].second_fork_index = 0;
 		++i;
 	}
 }

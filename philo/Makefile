@@ -11,6 +11,7 @@ SRCS := srcs/main.c \
 	srcs/action.c \
 	srcs/check_status.c \
 	srcs/waiting.c \
+	srcs/handle_fork.c \
 	
 HEADER := includes/philo.h
 CC := cc
