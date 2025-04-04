@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:19:19 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/31 10:29:14 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 11:39:19 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,24 @@ static bool	init_mutex(t_data *data)
 
 static bool	init_forks(t_data *data)
 {
-	int	i;
+	size_t	i;
 
-	i = -1;
+	i = 0;
 	data->forks_status = malloc(sizeof(int) * data->nb_philo);
 	if (data->forks_status == NULL)
 	{
 		ft_putstr_fd(ERR_MALLOC, 2);
 		return (false);
 	}
-	while (++i < (int)data->nb_philo)
+	while (i < data->nb_philo)
 	{
-		if (pthread_mutex_init(&data->m_forks[i], NULL) != 0)
-		{
-			ft_putstr_fd(ERR_INIT_MUTEX, 2);
-			while (i != 0)
-			{
-				pthread_mutex_destroy(&data->m_forks[i]);
-				--i;
-			}
-			return (false);
-		}
 		data->forks_status[i] = AVAILABLE;
+		++i;
+	}
+	if (pthread_mutex_init(&data->m_forks, NULL) != 0)
+	{
+		ft_putstr_fd(ERR_INIT_MUTEX, 2);
+		return (false);
 	}
 	data->m_fork_init = true;
 	return (true);
@@ -81,8 +77,6 @@ static void	init_struct_philos(t_data *data)
 		data->philos[i].id = i;
 		data->philos[i].nb_meal = 0;
 		data->philos[i].time_last_meal = data->start_time;
-		data->philos[i].left_fork = &data->m_forks[i];
-		data->philos[i].right_fork = &data->m_forks[(i + 1) % data->nb_philo];
 		data->philos[i].data = data;
 		data->philos[i].first_fork_index = 0;
 		data->philos[i].second_fork_index = 0;
@@ -93,17 +87,10 @@ static void	init_struct_philos(t_data *data)
 static bool	init_threads(t_data *data)
 {
 	data->m_fork_init = false;
-	data->m_forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
-	if (data->m_forks == NULL)
-	{
-		ft_putstr_fd(ERR_MALLOC, 2);
-		return (false);
-	}
 	data->philos = malloc(sizeof(t_philo) * data->nb_philo);
 	if (data->philos == NULL)
 	{
 		ft_putstr_fd(ERR_MALLOC, 2);
-		free(data->m_forks);
 		return (false);
 	}
 	if (init_forks(data) == false)

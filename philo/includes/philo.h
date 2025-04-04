@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 00:43:24 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/31 10:48:53 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 12:51:03 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ typedef struct s_philo
 	int				first_fork_index;
 	int				second_fork_index;
 	long			time_last_meal;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
 	struct s_data	*data;
 	pthread_t		thread;
 }					t_philo;
@@ -72,7 +70,7 @@ typedef struct s_data
 	bool			m_end_init;
 	pthread_mutex_t	m_print;
 	pthread_mutex_t	m_end;
-	pthread_mutex_t	*m_forks;
+	pthread_mutex_t	m_forks;
 	pthread_mutex_t	m_start_time;
 	pthread_mutex_t	m_start;
 	t_philo			*philos;
@@ -97,12 +95,7 @@ int		check_params(t_data *data, int ac, char **av);
 
 bool	init_data(t_data *data, int ac, char **av);
 bool	check_value(t_data *data);
-bool	take_right_fork(t_data *data, t_philo *philo,
-			pthread_mutex_t *first_fork, pthread_mutex_t *second_fork);
-void	fork_for_odd_nb_philo(t_data *data, t_philo *philo,
-			pthread_mutex_t **first_fork, pthread_mutex_t **second_fork);
-void	fork_for_even_nb_philo(t_data *data, t_philo *philo,
-			pthread_mutex_t **first_fork, pthread_mutex_t **second_fork);
+bool	take_right_fork(t_data *data, t_philo *philo);
 void	eating(t_data *data, t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:23:00 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/14 00:07:07 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 11:41:07 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 static void	only_one(t_data *data, t_philo *philo)
 {
 	safe_print(data, philo->id, MSG_THINK);
-	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(&data->m_forks);
+	data->forks_status[philo->id] = UNAVAILABLE;
 	safe_print(data, philo->id, MSG_FORK);
 	waiting(data, data->death_time);
-	pthread_mutex_unlock(philo->left_fork);
+	data->forks_status[philo->id] = AVAILABLE;
+	pthread_mutex_unlock(&data->m_forks);
 }
 
 static void	routine_loop(t_data *data, t_philo *philo, bool first_think)

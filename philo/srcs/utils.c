@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:56:18 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/31 10:51:40 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 11:48:51 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,6 @@ size_t	ft_strlen(const char *s)
 
 void	free_data(t_data *data)
 {
-	size_t	i;
-
-	i = 0;
-	if (data->m_fork_init == true)
-	{
-		while (i < data->nb_philo)
-		{
-			pthread_mutex_destroy(&data->m_forks[i]);
-			++i;
-		}
-	}
 	if (data->m_print_init == true)
 		pthread_mutex_destroy(&data->m_print);
 	if (data->m_end_init == true)
@@ -44,8 +33,8 @@ void	free_data(t_data *data)
 		pthread_mutex_destroy(&data->m_start_time);
 	if (data->m_start_init == true)
 		pthread_mutex_destroy(&data->m_start);
-	if (data->m_forks != NULL)
-		free(data->m_forks);
+	if (data->m_fork_init == true)
+		pthread_mutex_destroy(&data->m_forks);
 	if (data->philos != NULL)
 		free(data->philos);
 	if (data->forks_status != NULL)

@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:36:40 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/31 10:47:47 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 12:50:54 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,45 @@ void	eating(t_data *data, t_philo *philo)
 	waiting(data, data->eat_time);
 }
 
+static void	fork_for_odd_nb_philo(t_data *data, t_philo *philo)
+{
+	if (philo->id % 2 != 0)
+	{
+		if (philo->time_last_meal - data->death_time > data->eat_time)
+			waiting(data, data->eat_time);
+		philo->first_fork_index = (philo->id + 1) % data->nb_philo;
+		philo->second_fork_index = philo->id;
+	}
+	else
+	{
+		if (philo->time_last_meal - data->death_time > data->eat_time)
+			waiting(data, data->eat_time);
+		philo->first_fork_index = philo->id;
+		philo->second_fork_index = (philo->id + 1) % data->nb_philo;
+	}
+}
+
+static void	fork_for_even_nb_philo(t_data *data, t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		philo->first_fork_index = philo->id;
+		philo->second_fork_index = (philo->id + 1) % data->nb_philo;
+	}
+	else
+	{
+		philo->first_fork_index = (philo->id + 1) % data->nb_philo;
+		philo->second_fork_index = philo->id;
+	}
+}
+
 int	handle_fork(t_data *data, t_philo *philo)
 {
-	pthread_mutex_t	*first_fork;
-	pthread_mutex_t	*second_fork;
-	bool			res;
-
-	res = false;
-	first_fork = NULL;
-	second_fork = NULL;
 	if (data->nb_philo % 2 == 0)
-		fork_for_even_nb_philo(data, philo, &first_fork, &second_fork);
+		fork_for_even_nb_philo(data, philo);
 	else
-		fork_for_odd_nb_philo(data, philo, &first_fork, &second_fork);
-	while (res == false)
-	{
-		res = take_right_fork(data, philo, first_fork, second_fork);
-		if (res == false)
-			usleep(500);
-	}
+		fork_for_odd_nb_philo(data, philo);
+	if (take_right_fork(data, philo) == false)
+		return (-1);
 	return (0);
 }
