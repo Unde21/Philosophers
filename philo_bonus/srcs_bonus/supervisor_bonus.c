@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:59:38 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/26 15:29:37 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 09:34:37 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,13 @@ void	*supervisor(void *ptr)
 		if (check_death(data, philo, philo->id) == true)
 		{
 			make_sem_end_max(data);
-			clear_data(data);
-			exit(0);
+			break ;
 		}
 		else if (check_philo_ate_enough(data, philo) == true)
 		{
 			sem_post(data->sem_end);
 			break ;
 		}
-		usleep(1000);
 	}
 	return (NULL);
 }

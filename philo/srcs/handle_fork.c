@@ -6,13 +6,13 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:39:55 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/31 11:00:58 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 08:37:14 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	try_take_fork(t_data *data, t_philo *philo,
+static bool	try_take_fork(t_data *data, t_philo *philo,
 		pthread_mutex_t *fork_mutex, int fork_index)
 {
 	pthread_mutex_lock(fork_mutex);
@@ -21,10 +21,10 @@ static int	try_take_fork(t_data *data, t_philo *philo,
 		data->forks_status[fork_index] = UNAVAILABLE;
 		safe_print(data, philo->id, MSG_FORK);
 		pthread_mutex_unlock(fork_mutex);
-		return (1);
+		return (true);
 	}
 	pthread_mutex_unlock(fork_mutex);
-	return (0);
+	return (false);
 }
 
 static void	release_fork(t_data *data, t_philo *philo, pthread_mutex_t *fork)

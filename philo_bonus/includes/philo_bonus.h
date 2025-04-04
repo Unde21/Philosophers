@@ -6,7 +6,7 @@
 /*   By: samaouch <samaouch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 08:32:54 by samaouch          #+#    #+#             */
-/*   Updated: 2025/03/25 10:04:56 by samaouch         ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 09:31:43 by samaouch         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ time_to_sleep, [nb_must_eat]\n"
 # define SEM_END "/sem_end"
 # define SEM_FORKS "/forks"
 # define SEM_PRINT "/sem_print"
+// # define SEM_KILL "/sem_kill"
 
 # define MSG_FORK "has taken a fork"
 # define MSG_EATING "is eating"
